@@ -93,5 +93,6 @@ export default new Router({
       ]
     },
     {path: '/answer',component: () => import('@/components/student/answer')}
-  ]
+  ],
+  mode: 'history'
 })

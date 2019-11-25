@@ -127,22 +127,25 @@ li {
   font-size: 50px;
 }
 .right .msg {
+  width: 100%;
   text-align: center;
   position: absolute;
   top: 60px;
   left: 0px;
   display: flex;
   flex-direction: column;
-  border-radius: 2px;
-  border-bottom: 3px solid #0195ff;
+  border-radius: 15px;
+  border-bottom: 3px solid #aea893;
   background-color: #fff;
 }
 .right .msg p {
-  height: 40px;
+  height: 45px;
   line-height: 40px;
-  width: 105px;
+  width: 100%;
 }
 .right .msg p:hover {
+  border-radius: 15px;
   background-color: #0195ff;
+  color: #fff;
 }
 </style>

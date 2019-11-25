@@ -36,7 +36,7 @@ export default {
       user: { //用户信息
         userName: null,
         userId: null
-      } 
+      }
     }
   },
   created() {
@@ -84,7 +84,7 @@ export default {
 #topbar {
   position: relative;
   z-index: 10;
-  background-color: #124280;
+  background-color: #3b5277;
   height: 80px;
   line-height: 80px;
   color: #fff;
@@ -94,10 +94,10 @@ export default {
   height: 80px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 .topbar-left .icon-kaoshi {
+  margin-left: -60px;
   font-size: 60px;
 }
 .topbar-left .title {
@@ -110,29 +110,31 @@ export default {
   align-items: center;
 }
 .topbar-right .user-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+
 }
 .topbar-right .el-icon-menu {
   font-size: 30px;
-  margin-left: 20px;
+  margin-left: -30px;
 }
 .topbar-right .user {
   position: relative;
-  margin-right: 40px;
+  margin-right: 60px;
   display: flex;
 }
 .topbar-right .user .user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   margin-top: 15px;
   margin-left: 10px;
   cursor: pointer;
 }
 .user .out {
+  width: 60px;
   font-size: 14px;
   position: absolute;
   top: 80px;
-  right: 0px;
+  right: -15px;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 12px;
