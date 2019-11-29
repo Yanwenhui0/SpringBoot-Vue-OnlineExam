@@ -11,19 +11,19 @@ const state = {
       index: '1',
       title: '考试管理',
       icon: 'icon-kechengbiao',
-      content:[{item:'功能介绍',path:'/examDescription'},{item:'考试查询',path:'selectExam'},{item:'添加考试',path:'/addExam'}],
+      content:[{item:'功能介绍',path:'/examDescription'},{item:'考试查询',path:'/selectExam'},{item:'添加考试',path:'/addExam'}],
     },
     {
       index: '2',
       title: '题库管理',
       icon: 'icon-tiku',
-      content:[{item:'功能介绍',path:'/answerDescription'},{item:'所有题库',path:'/selectAnswer'},{item:'增加题库',path:'/addAnswer'}],
+      content:[{item:'功能介绍',path:'/answerDescription'},{item:'所有试题',path:'/selectAnswer'},{item:'增加试题',path:'/addAnswer'}],
     },
     {
       index: '3',
       title: '成绩查询',
       icon: 'icon-performance',
-      content:[{item:'学生成绩查询',path:'/allStudentsGrade'},{path: '/grade'},{item: '成绩分段查询',path: '/selectExamToPart'},{path: '/scorePart'}],
+      content:[{item:'学生成绩查询',path:'/allStudentsGrade'},{item: '/grade',path: '/grade'},{item: '成绩分段查询',path: '/selectExamToPart'},{item: '/scorePart', path: '/scorePart'}],
     },
     {
       index: '4',

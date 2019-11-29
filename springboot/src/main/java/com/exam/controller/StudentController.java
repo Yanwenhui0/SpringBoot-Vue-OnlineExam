@@ -2,18 +2,34 @@ package com.exam.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.exam.Dto.StudentSearchDto;
 import com.exam.entity.ApiResult;
 import com.exam.entity.Student;
 import com.exam.serviceimpl.StudentServiceImpl;
 import com.exam.util.ApiResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class StudentController {
 
     @Autowired
     private StudentServiceImpl studentService;
+
+    @PostMapping("/student/select/{page}/{size}")
+    public ApiResult findByEntity(@RequestBody StudentSearchDto studentSearchDto,
+                                  @PathVariable Integer page,
+                                  @PathVariable Integer size) {
+        return ApiResultHandler.buildApiResult(200,"查询学生",studentService.findByEntity(studentSearchDto, new Page<>(page,size)));
+    }
+
+    @GetMapping("/student/init")
+    public ApiResult initSelect() {
+        return ApiResultHandler.buildApiResult(200,"查询学生分类",studentService.initSelect());
+    }
 
     @GetMapping("/students/{page}/{size}")
     public ApiResult findAll(@PathVariable Integer page, @PathVariable Integer size) {
@@ -52,7 +68,7 @@ public class StudentController {
     }
 
     @PostMapping("/student")
-    public ApiResult add(@RequestBody Student student) {
+    public ApiResult add(@Valid @RequestBody Student student) {
         int res = studentService.add(student);
         if (res == 1) {
             return ApiResultHandler.buildApiResult(200,"添加成功",null);

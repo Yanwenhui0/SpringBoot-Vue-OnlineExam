@@ -1,15 +1,49 @@
 // 学生管理页面
 <template>
   <div class="all">
-    <el-table :data="pagination.records" border>
-      <el-table-column fixed="left" prop="studentName" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="institute" label="学院" width="200"></el-table-column>
+
+    <el-form :model="searchDto">
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="姓名:">
+            <el-input placeholder="学生姓名" size="medium" prefix-icon="el-icon-search" v-model="searchDto.studentName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="学院:">
+            <el-select size="medium" clearable  v-model="searchDto.institute" placeholder="选择学院">
+              <el-option v-for="(item, index) in initSearch.institute" :key="index" :label="item" :value="item"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="专业:">
+            <el-select size="medium" clearable v-model="searchDto.major" placeholder="选择专业">
+              <el-option v-for="(item, index) in initSearch.major" :key="index" :label="item" :value="item"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="年级:">
+            <el-select size="medium" multiple v-model="searchDto.gradeList" placeholder="选择年级">
+              <el-option v-for="(item, index) in initSearch.grade" :key="index" :label="item" :value="item"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+
+
+    <el-table :data="pagination.records" highlight-current-row border>
+      <el-table-column fixed="left" prop="studentId" label="学号" width="180"></el-table-column>
+      <el-table-column prop="studentName" label="姓名" width="160"></el-table-column>
+      <el-table-column prop="institute" label="学院" width="220"></el-table-column>
       <el-table-column prop="major" label="专业" width="200"></el-table-column>
-      <el-table-column prop="grade" label="年级" width="200"></el-table-column>
-      <el-table-column prop="clazz" label="班级" width="100"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="120"></el-table-column>
-      <el-table-column prop="tel" label="联系方式" width="120"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column prop="grade" label="年级" width="150"></el-table-column>
+      <el-table-column prop="clazz" label="班级" width="120"></el-table-column>
+      <el-table-column prop="sex" label="性别" width="100"></el-table-column>
+      <el-table-column prop="tel" label="联系方式" width="180"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
           <el-button @click="checkGrade(scope.row.studentId)" type="primary" size="small">编辑</el-button>
           <el-button @click="deleteById(scope.row.studentId)" type="danger" size="small">删除</el-button>
@@ -55,6 +89,9 @@
           <el-form-item label="电话号码">
             <el-input v-model="form.tel"></el-input>
           </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="form.email"></el-input>
+          </el-form-item>
         </el-form>
       </section>
       <span slot="footer" class="dialog-footer">
@@ -77,16 +114,44 @@ export default {
       },
       dialogVisible: false, //对话框
       form: {}, //保存点击以后当前试卷的信息
+      initSearch:{
+          institute:[],
+          major:[],
+          grade:[],
+      },
+      searchDto:{
+        studentName: '',
+        institute:'',
+        major:'',
+        gradeList:[],
+      },
     };
   },
   created() {
+    this.getStudentType();
     this.getStudentInfo();
   },
   methods: {
+    getStudentType() {
+      this.$axios({
+          url: '/api/student/init',
+          method: 'get',
+      }).then(res => {
+        this.initSearch.institute = res.data.data.institute_list;
+        this.initSearch.major = res.data.data.major_list;
+        this.initSearch.grade = res.data.data.grade_list;
+      }).catch(error => {});
+    },
     getStudentInfo() {
       //分页查询所有试卷信息
-      this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}`).then(res => {
-        this.pagination = res.data.data;
+      this.$axios({
+        url: `/api/student/select/${this.pagination.current}/${this.pagination.size}`,
+        method: 'post',
+        data: {
+            ...this.searchDto,
+        }
+      }).then(res => {
+          this.pagination = res.data.data;
       }).catch(error => {});
     },
     //改变当前记录条数
@@ -146,12 +211,28 @@ export default {
           done();
         }).catch(_ => {});
     },
+  },
+  watch: {
+      searchDto: {
+      deep: true,
+      handler: function () {
+          this.$axios({
+              url: `/api/student/select/1/${this.pagination.size}`,
+              method: 'post',
+              data: {
+                  ...this.searchDto,
+              }
+          }).then(res => {
+              this.pagination = res.data.data;
+          }).catch(error => {});
+      }
+      }
   }
 };
 </script>
 <style lang="scss" scoped>
 .all {
-  padding: 0px 40px;
+  padding: 0px 50px;
   .page {
     margin-top: 20px;
     display: flex;
@@ -164,6 +245,12 @@ export default {
   .el-table tr {
     background-color: #dd5862 !important;
   }
+}
+.el-form {
+  padding: 0px 20px 30px 0px;
+}
+.el-form .el-input{
+  width: 200px;
 }
 .el-table .warning-row {
   background: #000 !important;

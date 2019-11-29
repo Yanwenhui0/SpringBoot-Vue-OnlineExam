@@ -1,10 +1,30 @@
 //查询所有题库
 <template>
   <div class="exam">
-    <el-table :data="pagination.records" border :row-class-name="tableRowClassName">
-      <el-table-column fixed="left" prop="subject" label="试卷名称" width="180"></el-table-column>
-      <el-table-column prop="question" label="题目信息" width="490"></el-table-column>
-      <el-table-column prop="section" label="所属章节" width="200"></el-table-column>
+
+    <el-form>
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="所属课程:">
+            <el-select size="medium" clearable v-model="subject" placeholder="选择课程">
+              <el-option v-for="(item, index) in subjectList" :key="index" :label="item" :value="item"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="题目类型:">
+            <el-select size="medium" clearable v-model="questionType" placeholder="选择题型">
+              <el-option v-for="(item, index) in typeList" :key="index" :label="item" :value="item"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+
+    <el-table :data="pagination.records" highlight-current-row :row-class-name="tableRowClassName">
+      <el-table-column type="index" width="50"></el-table-column>
+      <el-table-column prop="question" label="题目信息" width="680"></el-table-column>
+      <el-table-column prop="subject" label="所属课程" width="300"></el-table-column>
       <el-table-column prop="type" label="题目类型" width="200"></el-table-column>
       <el-table-column prop="score" label="试题分数" width="150"></el-table-column>
       <el-table-column prop="level" label="难度等级" width="133"></el-table-column>
@@ -31,23 +51,36 @@ export default {
         current: 1, //当前页
         total: null, //记录条数
         size: 6 //每页条数
-      }
+      },
+      subjectList: [],
+      typeList: ['选择题', '填空题', '判断题'],
+      questionType: '',
+      subject: '',
     };
   },
   created() {
     this.getAnswerInfo();
+    this.getsubjectList();
   },
   methods: {
+      getsubjectList() {
+          this.$axios('/api/question').then(res => {this.subjectList = res.data.data})
+      },
     getAnswerInfo() {
       //分页查询所有试卷信息
-      this.$axios(
-        `/api/answers/${this.pagination.current}/${this.pagination.size}`
-      )
-        .then(res => {
+      var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;
+      if(this.questionType !== '') {
+          url = url + `?questionType=${this.questionType}`
+      }
+      if(this.subject !== '') {
+          url = url + `&subject=${this.subject}`
+      }
+      this.$axios({
+          url: url,
+    }).then(res => {
           this.pagination = res.data.data;
           console.log(res);
-        })
-        .catch(error => {});
+        }).catch(error => {});
     },
     //改变当前记录条数
     handleSizeChange(val) {
@@ -66,7 +99,43 @@ export default {
         return "success-row";
       }
     }
-  }
+  },watch: {
+        questionType: {
+            deep: true,
+            handler: function () {
+                var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;
+                if(this.questionType !== '') {
+                    url = url + `?questionType=${this.questionType}`
+                }
+                if(this.subject !== '') {
+                    url = url + `&subject=${this.subject}`
+                }
+                this.$axios({
+                    url: url,
+                }).then(res => {
+                        this.pagination = res.data.data;
+                        console.log(res);
+                    }).catch(error => {});
+            }
+        }, subject: {
+            deep: true,
+            handler: function () {
+                var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;
+                if(this.questionType !== '') {
+                    url = url + `?questionType=${this.questionType}`
+                }
+                if(this.subject !== '') {
+                    url = url + `&subject=${this.subject}`
+                }
+                this.$axios({
+                    url: url,
+                }).then(res => {
+                    this.pagination = res.data.data;
+                    console.log(res);
+                }).catch(error => {});
+            }
+        }
+    }
 };
 </script>
 <style lang="scss" scoped>
@@ -87,7 +156,7 @@ export default {
 }
   .el-table .warning-row {
     background: #000 !important;
-    
+
   }
 
   .el-table .success-row {

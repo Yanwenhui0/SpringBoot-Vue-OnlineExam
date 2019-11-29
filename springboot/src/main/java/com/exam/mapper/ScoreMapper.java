@@ -1,5 +1,6 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.exam.entity.Score;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface ScoreMapper {
+public interface ScoreMapper extends BaseMapper<Score> {
     /**
      * @param score 添加一条成绩记录
      * @return

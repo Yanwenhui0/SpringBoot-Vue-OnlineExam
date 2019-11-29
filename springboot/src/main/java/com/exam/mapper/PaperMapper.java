@@ -1,5 +1,6 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.exam.entity.PaperManage;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface PaperMapper {
+public interface PaperMapper extends BaseMapper<PaperManage> {
     @Select("select paperId, questionType,questionId from paper_manage")
     List<PaperManage> findAll();
 

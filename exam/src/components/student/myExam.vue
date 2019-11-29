@@ -9,8 +9,8 @@
         <li><el-button type="primary" @click="search()">搜索试卷</el-button></li>
       </ul>
       <ul class="paper" v-loading="loading">
-        <li class="item" v-for="(item,index) in pagination.records" :key="index">
-          <h4 @click="toExamMsg(item.examCode)">{{item.source}}</h4>
+        <li class="item" v-for="(item,index) in pagination.records" @click="toExamMsg(item.examCode)" :key="index">
+          <h4>{{item.source}}</h4>
           <p class="name">{{item.source}}-{{item.description}}</p>
           <div class="info">
             <i class="el-icon-loading"></i><span>{{item.examDate.substr(0,10)}}</span>
@@ -54,7 +54,7 @@ export default {
     this.loading = true
   },
   // watch: {
-    
+
   // },
   methods: {
     //获取当前所有考试信息
@@ -107,9 +107,7 @@ export default {
   }
 }
 .paper {
-  h4 {
-    cursor: pointer;
-  }
+
 }
 .paper .item a {
   color: #000;
@@ -139,6 +137,7 @@ export default {
   border: 1px solid #eee;
   box-shadow: 0 0 4px 2px rgba(217,222,234,0.3);
   transition: all 0.6s ease;
+  cursor: pointer;
 }
 .paper .item:hover {
   box-shadow: 0 0 4px 2px rgba(140, 193, 248, 0.45);

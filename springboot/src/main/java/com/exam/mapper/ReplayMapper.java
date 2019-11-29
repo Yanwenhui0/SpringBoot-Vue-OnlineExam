@@ -1,12 +1,13 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.exam.entity.Replay;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface ReplayMapper {
+public interface ReplayMapper extends BaseMapper<Replay> {
 
     @Select("select messageId,replayId,replay,replayTime from replay")
     List<Replay> findAll();

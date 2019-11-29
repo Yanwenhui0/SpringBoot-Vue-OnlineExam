@@ -7,16 +7,16 @@
         <span class="title" @click="index()">EXAM-SYSTEM</span>
       </el-col>
       <el-col :span="20" class="topbar-right">
-        <i class="el-icon-menu" @click="toggle()"></i>
+        <i class="el-icon-s-fold" @click="toggle()"></i>
         <div class="user">
-          <span>{{user.userName}}</span>
+          <span @click="showSetting()">{{user.userName}}</span>
           <img src="@/assets/img/userimg.png" class="user-img" ref="img" @click="showSetting()" />
           <transition name="fade">
             <div class="out" ref="out" v-show="login_flag">
               <ul>
-                <li><a href="javascript:;">用户信息</a></li>
-                <li><a href="javascript:;">设置</a></li>
-                <li class="exit" @click="exit()"><a href="javascript:;">退出登录</a></li>
+                <li><a href="javascript:;"><i class="el-icon-user-solid"></i>我的信息</a></li>
+                <li><a href="javascript:;"><i class="el-icon-s-tools"></i>个人设置</a></li>
+                <li class="exit" @click="exit()"><a href="javascript:;"><i class="el-icon-switch-button"></i>退出登录</a></li>
               </ul>
             </div>
           </transition>
@@ -70,6 +70,13 @@ export default {
       }
     }
   },
+  mounted() {
+      document.addEventListener('click', e => {
+          if (!this.$el.contains(e.target)) {
+              this.login_flag = false //这句话的意思是点击其他区域关闭（也可以根据自己需求写触发事件）
+          }
+      })
+  },
   store
 }
 </script>
@@ -97,7 +104,7 @@ export default {
   overflow: hidden;
 }
 .topbar-left .icon-kaoshi {
-  margin-left: -60px;
+  margin-left: -70px;
   font-size: 60px;
 }
 .topbar-left .title {
@@ -112,14 +119,15 @@ export default {
 .topbar-right .user-img {
 
 }
-.topbar-right .el-icon-menu {
+.topbar-right .el-icon-s-fold {
   font-size: 30px;
-  margin-left: -30px;
+  margin-left: -50px;
 }
 .topbar-right .user {
   position: relative;
   margin-right: 60px;
   display: flex;
+  cursor: pointer;
 }
 .topbar-right .user .user-img {
   width: 50px;
@@ -127,32 +135,37 @@ export default {
   border-radius: 50%;
   margin-top: 15px;
   margin-left: 10px;
-  cursor: pointer;
 }
 .user .out {
-  width: 60px;
+  width: 120px;
   font-size: 14px;
   position: absolute;
   top: 80px;
-  right: -15px;
+  right: 0px;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 12px;
+  padding: 10px;
 }
 .user .out ul {
   list-style: none;
 }
 .user .out ul > li {
-  height: 26px;
+  height: 30px;
   line-height: 26px;
 }
 .out a {
   text-decoration: none;
   color: #000;
 }
+.out a:hover{
+  color: #0195ff;
+}
+.out i {
+  padding: 0px 18px 0px 12px;
+}
 .out .exit {
   margin-top: 4px;
-  padding-top: 4px;
+  padding-top: 8px;
   border-top: 1px solid #ccc;
 }
 </style>

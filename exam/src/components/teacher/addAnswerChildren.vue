@@ -220,7 +220,7 @@
       </section>
     </el-tab-pane>
     <el-tab-pane name="second">
-      <span slot="label"><i class="iconfont icon-daoru-tianchong"></i>在线组卷</span>
+      <span slot="label"><i class="iconfont icon-daoru-tianchong"></i>一键组卷</span>
       <div class="box">
         <ul>
           <li>
@@ -335,7 +335,7 @@ export default {
       subject: '', //试卷名称用来接收路由参数
       postChange: { //选择题提交内容
         subject: '', //试卷名称
-        level: '', //难度等级选中值 
+        level: '', //难度等级选中值
         rightAnswer: '', //正确答案选中值
         section: '', //对应章节
         question: '', //题目
@@ -347,7 +347,7 @@ export default {
       },
       postFill: { //填空题提交内容
         subject: '', //试卷名称
-        level: '', //难度等级选中值 
+        level: '', //难度等级选中值
         answer: '', //正确答案
         section: '', //对应章节
         question: '', //题目
@@ -355,7 +355,7 @@ export default {
       },
       postJudge: { //判断题提交内容
         subject: '', //试卷名称
-        level: '', //难度等级选中值 
+        level: '', //难度等级选中值
         answer: '', //正确答案
         section: '', //对应章节
         question: '', //题目
@@ -419,7 +419,7 @@ export default {
         url: '/api/MultiQuestion',
         method: 'post',
         data: {
-          ...this.postChange          
+          ...this.postChange
         }
       }).then(res => { //添加成功显示提示
         let status = res.data.code
@@ -584,7 +584,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-      }        
+      }
     }
     .fill {
       .fillAnswer {

@@ -1,5 +1,7 @@
 package com.exam.entity;
 
+import javax.validation.constraints.Email;
+
 public class Student {
     private Integer studentId;
 
@@ -15,6 +17,7 @@ public class Student {
 
     private String tel;
 
+    @Email(message = "请输入正确的Email")
     private String email;
 
     private String pwd;

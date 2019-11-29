@@ -71,8 +71,9 @@
         </el-form>
       </section>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit()">确 定</el-button>
+        <el-button @click="add(form.paperId,form.source)" type="warning" size="small">编辑考题</el-button>
+        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="submit()" size="small">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -86,7 +87,7 @@ export default {
       pagination: { //分页后的考试信息
         current: 1, //当前页
         total: null, //记录条数
-        size: 4 //每页条数
+        size: 6 //每页条数
       },
       dialogVisible: false
     }
@@ -95,6 +96,9 @@ export default {
     this.getExamInfo()
   },
   methods: {
+    add(paperId,source) { //增加题库
+        this.$router.push({path:'/addAnswerChildren',query: {paperId: paperId,subject:source}})
+    },
     edit(examCode) { //编辑试卷
       this.dialogVisible = true
       this.$axios(`/api/exam/${examCode}`).then(res => { //根据试卷id请求后台

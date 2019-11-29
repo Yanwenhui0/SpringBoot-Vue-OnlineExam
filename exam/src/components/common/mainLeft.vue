@@ -18,11 +18,10 @@
             <span slot="title" class="title">{{item.title}}</span>
           </div>
         </template>
-        <el-menu-item-group v-for="(list,index1) in item.content" :key="index1">
-          <el-menu-item @click="handleTitle(item.index)" :index="list.path">{{list.item}}</el-menu-item>
-        </el-menu-item-group>
+          <el-menu-item v-for="(list,index1) in item.content" :key="index1" @click="handleTitle(item.index)" :index="list.path">{{list.item}}</el-menu-item>
       </el-submenu>
     </el-menu>
+    <i class="el-icon-notebook-1"></i>
   </div>
 </template>
 
@@ -58,7 +57,7 @@ export default {
           index: '5',
           title: '教师管理',
           icon: 'icon-Userselect',
-          content:[{item1:'教师管理',path:'/teacherManage'},{item2: '添加教师',path: '/addTeacher'}],
+          content:[{item:'教师管理',path:'/teacherManage'},{item: '添加教师',path: '/addTeacher'}],
         })
       }
     }
@@ -76,7 +75,7 @@ export default {
   color: #fff;
 }
 .left-width {
-  width: 213px;
+  width: 200px;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   min-height: 900px;
@@ -93,12 +92,30 @@ export default {
   margin-left: 14px;
 }
 .el-submenu {
-  border-bottom: 1px solid #eeeeee0f !important;
+  border-bottom: 1px solid rgba(238, 238, 238, 0.16) !important;
 }
 .el-submenu__title:hover {
   background-color: #fff;
 }
 .el-submenu__title i {
     color: #fbfbfc !important;
+}
+.el-menu{
+
+}
+.el-menu-item {
+  padding-left: 75px !important;
+  color: white !important;
+}
+.el-menu-item.is-active {
+  color: #fff !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+.el-icon-notebook-1{
+  font-size: 110px;
+  color: #b5daf2;
+  position: absolute;
+  bottom: 40px;
+  left: 70px;
 }
 </style>

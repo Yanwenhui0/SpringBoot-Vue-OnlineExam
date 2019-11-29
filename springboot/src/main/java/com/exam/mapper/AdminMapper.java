@@ -1,12 +1,13 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.exam.entity.Admin;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface AdminMapper {
+public interface AdminMapper extends BaseMapper<Admin> {
 
     @Select("select adminName,sex,tel,email,cardId,role from admin")
     public List<Admin> findAll();

@@ -9,8 +9,6 @@ public class MultiQuestion {
 
     private String subject;
 
-    private String section;
-
     private String answerA;
 
     private String answerB;
@@ -29,4 +27,5 @@ public class MultiQuestion {
 
     private Integer score;
 
+    private Integer collect;
 }

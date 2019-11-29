@@ -1,5 +1,6 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.ExamManage;
@@ -8,7 +9,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface ExamManageMapper {
+public interface ExamManageMapper extends BaseMapper<ExamManage> {
     @Select("select * from exam_manage")
     List<ExamManage> findAll();
 

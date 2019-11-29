@@ -70,7 +70,7 @@
             </el-collapse-item>
           </el-collapse>
         </el-collapse-item>
-        
+
       </el-collapse>
     </div>
     <!--考生须知对话框-->
@@ -188,6 +188,7 @@ export default {
   margin: 20px 0px 0px 20px;
   border-top: 1px solid #eee;
   padding: 20px 0px 10px 0px;
+  cursor: pointer;
 }
 .wrapper .info a {
   color: #88949b;
@@ -201,7 +202,7 @@ export default {
   padding: 5px 10px;
   border: 1px solid #88949b;
   border-radius: 4px;
-} 
+}
 .wrapper .bottom {
   display: flex;
   margin-left: 20px;

@@ -1,15 +1,42 @@
 // 教师管理页面
 <template>
   <div class="all">
-    <el-table :data="pagination.records" border>
-      <el-table-column fixed="left" prop="teacherName" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="institute" label="学院" width="200"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="120"></el-table-column>
-      <el-table-column prop="tel" label="联系方式" width="120"></el-table-column>
-      <el-table-column prop="email" label="密码" width="120"></el-table-column>
-      <el-table-column prop="cardId" label="身份证号" width="120"></el-table-column>
-      <el-table-column prop="type" label="职称" width="120"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+
+    <el-form :model="searchDto">
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="姓名:">
+            <el-input placeholder="教师姓名" size="medium" prefix-icon="el-icon-search" v-model="searchDto.teacherName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="学院:">
+            <el-select size="medium" clearable  v-model="searchDto.institute" placeholder="选择学院">
+              <el-option v-for="(item, index) in initSearch.institute" :key="index" :label="item" :value="item"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="专业:">
+            <el-select size="medium" multiple v-model="searchDto.typeList" placeholder="选择职称">
+              <el-option v-for="(item, index) in initSearch.type" :key="index" :label="item" :value="item"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+
+    <el-table :data="pagination.records" highlight-current-row border>
+<!--      border-->
+      <el-table-column fixed="left" prop="teacherId" label="职工号" width="150"></el-table-column>
+      <el-table-column prop="teacherName" label="姓名" width="120"></el-table-column>
+      <el-table-column prop="sex" label="性别" width="100"></el-table-column>
+      <el-table-column prop="cardId" label="身份证号" width="180"></el-table-column>
+      <el-table-column prop="institute" label="学院" width="220"></el-table-column>
+      <el-table-column prop="type" label="职称" width="180"></el-table-column>
+      <el-table-column prop="tel" label="联系方式" width="160"></el-table-column>
+      <el-table-column prop="email" label="邮箱" width="210"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
           <el-button @click="checkGrade(scope.row.teacherId)" type="primary" size="small">编辑</el-button>
           <el-button @click="deleteById(scope.row.teacherId)" type="danger" size="small">删除</el-button>
@@ -77,15 +104,40 @@ export default {
       },
       dialogVisible: false, //对话框
       form: {}, //保存点击以后当前试卷的信息
+        initSearch:{
+            institute:[],
+            type:[],
+        },
+        searchDto:{
+            teacherName: '',
+            institute:'',
+            typeList:[],
+        },
     };
   },
   created() {
     this.getTeacherInfo();
+    this.getTeacherType();
   },
   methods: {
+      getTeacherType() {
+          this.$axios({
+              url: '/api/teacher/init',
+              method: 'get',
+          }).then(res => {
+              this.initSearch.institute = res.data.data.institute_list;
+              this.initSearch.type = res.data.data.type_list;
+          }).catch(error => {});
+      },
     getTeacherInfo() {
       //分页查询所有试卷信息
-      this.$axios(`/api/teachers/${this.pagination.current}/${this.pagination.size}`).then(res => {
+      this.$axios({
+          url: `/api/teachers/${this.pagination.current}/${this.pagination.size}`,
+          method: 'post',
+          data: {
+              ...this.searchDto
+          }
+      }).then(res => {
         this.pagination = res.data.data;
       }).catch(error => {});
     },
@@ -146,12 +198,27 @@ export default {
           done();
         }).catch(_ => {});
     },
-  }
+  },watch: {
+        searchDto: {
+            deep: true,
+            handler: function () {
+                this.$axios({
+                    url: `/api/teachers/1/${this.pagination.size}`,
+                    method: 'post',
+                    data: {
+                        ...this.searchDto,
+                    }
+                }).then(res => {
+                    this.pagination = res.data.data;
+                }).catch(error => {});
+            }
+        }
+    }
 };
 </script>
 <style lang="scss" scoped>
 .all {
-  padding: 0px 40px;
+  padding: 0px 50px;
   .page {
     margin-top: 20px;
     display: flex;
@@ -164,6 +231,12 @@ export default {
   .el-table tr {
     background-color: #dd5862 !important;
   }
+}
+.el-form {
+  padding: 0px 20px 30px 0px;
+}
+.el-form .el-input{
+  width: 200px;
 }
 .el-table .warning-row {
   background: #000 !important;

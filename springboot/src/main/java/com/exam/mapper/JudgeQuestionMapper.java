@@ -1,5 +1,6 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.JudgeQuestion;
@@ -12,7 +13,7 @@ import java.util.List;
 //判断题
 
 @Mapper
-public interface JudgeQuestionMapper {
+public interface JudgeQuestionMapper extends BaseMapper<JudgeQuestion> {
 
     @Select("select * from judge_question where questionId in (select questionId from paper_manage where questionType = 3 and paperId = #{paperId})")
     List<JudgeQuestion> findByIdAndType(Integer paperId);
@@ -27,8 +28,8 @@ public interface JudgeQuestionMapper {
     @Select("select questionId from judge_question order by questionId desc limit 1")
     JudgeQuestion findOnlyQuestionId();
 
-    @Insert("insert into judge_question(subject,question,answer,analysis,level,section) values " +
-            "(#{subject},#{question},#{answer},#{analysis},#{level},#{section})")
+    @Insert("insert into judge_question(subject,question,answer,analysis,level) values " +
+            "(#{subject},#{question},#{answer},#{analysis},#{level})")
     int add(JudgeQuestion judgeQuestion);
 
     @Select("select questionId from judge_question  where subject=#{subject}  order by rand() desc limit #{pageNo}")

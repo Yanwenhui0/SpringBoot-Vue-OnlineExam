@@ -1,5 +1,6 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.FillQuestion;
@@ -9,7 +10,7 @@ import java.util.List;
 
 //填空题
 @Mapper
-public interface FillQuestionMapper {
+public interface FillQuestionMapper extends BaseMapper<FillQuestion> {
 
     @Select("select * from fill_question where questionId in (select questionId from paper_manage where questionType = 2 and paperId = #{paperId})")
     List<FillQuestion> findByIdAndType(Integer paperId);

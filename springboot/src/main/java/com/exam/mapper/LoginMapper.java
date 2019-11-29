@@ -1,5 +1,6 @@
 package com.exam.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.exam.entity.Admin;
 import com.exam.entity.Student;
 import com.exam.entity.Teacher;
