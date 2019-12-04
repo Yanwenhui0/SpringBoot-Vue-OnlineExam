@@ -1,5 +1,6 @@
 package com.exam.serviceimpl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,6 +16,7 @@ import com.exam.service.JudgeQuestionService;
 import com.exam.service.MultiQuestionService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,15 +83,18 @@ public class QuestionServiceImpl {
                     }
                     break;
             }
-
+            List<Map> resultList = Lists.newArrayList();
             for (Object record : result.getRecords()) {
-                ((Map)record).put("type", questionType);
+                Map map = JSONObject.parseObject(JSONObject.toJSONString(record), Map.class);
+                map.put("type", questionType);
+                resultList.add(map);
             }
+            result.setRecords(resultList);
         } else {
             if(StringUtils.isNotBlank(subject)) {
-                result = answerMapper.findAll(page);
-            } else {
                 result = answerMapper.findAllBySubject(page, subject);
+            } else {
+                result = answerMapper.findAll(page);
             }
         }
         return result;

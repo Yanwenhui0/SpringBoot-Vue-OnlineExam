@@ -23,11 +23,12 @@
 
     <el-table :data="pagination.records" highlight-current-row :row-class-name="tableRowClassName">
       <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column prop="question" label="题目信息" width="680"></el-table-column>
-      <el-table-column prop="subject" label="所属课程" width="300"></el-table-column>
+      <el-table-column prop="question" label="题目信息" width="600"></el-table-column>
+      <el-table-column prop="subject" label="所属课程" width="280"></el-table-column>
       <el-table-column prop="type" label="题目类型" width="200"></el-table-column>
       <el-table-column prop="score" label="试题分数" width="150"></el-table-column>
       <el-table-column prop="level" label="难度等级" width="133"></el-table-column>
+      <el-table-column prop="collect" label="收藏数量" width="100"></el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -69,14 +70,16 @@ export default {
     getAnswerInfo() {
       //分页查询所有试卷信息
       var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;
+      var param = {};
       if(this.questionType !== '') {
-          url = url + `?questionType=${this.questionType}`
+        param.questionType = this.questionType
       }
       if(this.subject !== '') {
-          url = url + `&subject=${this.subject}`
+        param.subject = this.subject
       }
       this.$axios({
-          url: url,
+        url: url,
+        params: param
     }).then(res => {
           this.pagination = res.data.data;
           console.log(res);
@@ -103,15 +106,17 @@ export default {
         questionType: {
             deep: true,
             handler: function () {
-                var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;
-                if(this.questionType !== '') {
-                    url = url + `?questionType=${this.questionType}`
-                }
-                if(this.subject !== '') {
-                    url = url + `&subject=${this.subject}`
-                }
+              var url = `/api/question/all/1/${this.pagination.size}`;
+              var param = {};
+              if(this.questionType !== '') {
+                param.questionType = this.questionType
+              }
+              if(this.subject !== '') {
+                param.subject = this.subject
+              }
                 this.$axios({
                     url: url,
+                    params: param
                 }).then(res => {
                         this.pagination = res.data.data;
                         console.log(res);
@@ -120,15 +125,17 @@ export default {
         }, subject: {
             deep: true,
             handler: function () {
-                var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;
+                var url = `/api/question/all/1/${this.pagination.size}`;
+                var param = {};
                 if(this.questionType !== '') {
-                    url = url + `?questionType=${this.questionType}`
+                  param.questionType = this.questionType
                 }
                 if(this.subject !== '') {
-                    url = url + `&subject=${this.subject}`
+                  param.subject = this.subject
                 }
                 this.$axios({
                     url: url,
+                    params: param
                 }).then(res => {
                     this.pagination = res.data.data;
                     console.log(res);

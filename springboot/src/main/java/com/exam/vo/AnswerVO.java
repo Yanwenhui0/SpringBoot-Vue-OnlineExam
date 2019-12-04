@@ -10,4 +10,5 @@ public class AnswerVO {
     private String section;
     private String level;
     private String type;
+    private int collect;
 }

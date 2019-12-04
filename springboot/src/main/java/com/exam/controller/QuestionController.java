@@ -26,10 +26,10 @@ public class QuestionController {
     @GetMapping(value = "/all/{page}/{size}")
     public ApiResult getAllQuestion(@PathVariable("page") Integer page,
                                     @PathVariable("size") Integer size,
-                                    @RequestParam(required = false) String qusetionType,
+                                    @RequestParam(required = false) String questionType,
                                     @RequestParam(required = false) String subject) {
         Page answerVOPage = new Page(page,size);
-        return ApiResultHandler.buildApiResult(200, "get all question", questionService.getAllQuestion(answerVOPage, qusetionType, subject));
+        return ApiResultHandler.buildApiResult(200, "get all question", questionService.getAllQuestion(answerVOPage, questionType, subject));
     }
 
 }
