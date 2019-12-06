@@ -25,4 +25,6 @@ public interface TeacherService {
     public int update(Teacher teacher);
 
     public int add(Teacher teacher);
+
+    Integer updatePassword(String teacherId, String oldPassword, String password);
 }

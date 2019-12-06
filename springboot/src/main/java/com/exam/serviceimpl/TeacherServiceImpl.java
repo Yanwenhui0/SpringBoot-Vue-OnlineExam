@@ -22,7 +22,6 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private TeacherMapper teacherMapper;
 
-
     @Override
     public IPage<Teacher> selectByEntity(TeacherSearchDto teacherSearchDto, Page<Teacher> page) {
         Teacher teacher = new Teacher();
@@ -86,5 +85,23 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public int add(Teacher teacher) {
         return teacherMapper.add(teacher);
+    }
+
+    @Override
+    public Integer updatePassword(String teacherId, String oldPassword, String password) {
+        Teacher teacher = validPassword(teacherId, oldPassword);
+        if(null == teacher) {
+            return null;
+        }
+        teacher.setPwd(password);
+        return teacherMapper.updateById(teacher);
+    }
+
+    private Teacher validPassword(String teacherId, String password) {
+        Teacher byId = teacherMapper.findById(Integer.valueOf(teacherId));
+        if(StringUtils.equals(password, byId.getPwd())) {
+            return byId;
+        }
+        return null;
     }
 }

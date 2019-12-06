@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.entity.PaperManage;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PaperService {
 
@@ -13,4 +14,8 @@ public interface PaperService {
     List<PaperManage> findById(Integer paperId);
 
     int add(PaperManage paperManage);
+
+    void remove(PaperManage paperManage);
+
+    String countType(Integer paperId);
 }

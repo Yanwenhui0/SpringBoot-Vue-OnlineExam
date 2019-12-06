@@ -1,7 +1,9 @@
 package com.exam.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.exam.entity.Admin;
 import com.exam.entity.ApiResult;
+import com.exam.service.AdminService;
 import com.exam.serviceimpl.AdminServiceImpl;
 import com.exam.util.ApiResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AdminController {
 
-    private AdminServiceImpl adminService;
+    private AdminService adminService;
     @Autowired
     public AdminController(AdminServiceImpl adminService){
         this.adminService = adminService;
@@ -42,5 +44,19 @@ public class AdminController {
     @PostMapping("/admin")
     public ApiResult add(Admin admin){
         return ApiResultHandler.success(adminService.add(admin));
+    }
+
+    @PutMapping("/admin/password")
+    public ApiResult updatePassword(@RequestBody JSONObject jsonObject){
+        String adminId = jsonObject.get("adminId").toString();
+        String oldPassword = jsonObject.get("oldPassword").toString();
+        String password = jsonObject.get("password").toString();
+
+        Integer integer = adminService.updatePassword(adminId, oldPassword, password);
+        if(null != integer) {
+            return ApiResultHandler.success(integer);
+        } else {
+            return ApiResultHandler.buildApiResult(400, "原密码错误", null);
+        }
     }
 }

@@ -14,13 +14,34 @@
           <li class="right" @mouseenter="flag = !flag" @mouseleave="flag = !flag">
             <a href="javascript:;"><i class="iconfont icon-Userselect icon"></i>{{user.userName}}</a>
             <div class="msg" v-if="flag">
-              <p @click="manage()">管理中心</p>
+              <p @click="myInfo()">我的信息</p>
+              <p @click="manage()">个人设置</p>
               <p class="exit" @click="exit()">退出</p>
             </div>
           </li>
         </ul>
       </el-col>
     </el-row>
+
+    <!-- 编辑对话框-->
+    <el-dialog
+      append-to-body
+      title="我的信息"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <label>姓名：{{user.userName}}</label>
+      <label v-if="user.sex">性别：{{user.sex}}</label>
+      <label>电话：{{user.tel}}</label>
+      <label>邮箱：{{user.email}}</label>
+      <label v-if="user.grade">年级：{{user.grade}}</label>
+      <label v-if="user.institute">学院：{{user.institute}}</label>
+      <label v-if="user.major">专业：{{user.major}}</label>
+      <label v-if="user.clazz">班级：{{user.clazz}}</label>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
     <!--路由区域-->
     <div class="main">
       <router-view></router-view>
@@ -40,6 +61,7 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       flag: false,
       user: {}
     }
@@ -48,6 +70,29 @@ export default {
     this.userInfo()
   },
   methods: {
+    myInfo() { //个人信息
+        this.dialogVisible = true
+        switch(this.$cookies.get("role")) {
+            case "0":  //管理员
+                this.user.tel = this.$cookies.get("tel")
+                this.user.email = this.$cookies.get("email")
+                break
+            case "1": //教师
+                this.user.tel = this.$cookies.get("tel")
+                this.user.email = this.$cookies.get("email")
+                this.user.institute = this.$cookies.get("institute")
+                break
+            case "2": //学生
+                this.user.tel = this.$cookies.get("tel")
+                this.user.email = this.$cookies.get("email")
+                this.user.institute = this.$cookies.get("institute")
+                this.user.grade = this.$cookies.get("grade")
+                this.user.major = this.$cookies.get("major")
+                this.user.clazz = this.$cookies.get("clazz")
+                this.user.sex = this.$cookies.get("sex")
+                break
+        }
+    },
     exit() {  //退出登录
       this.$router.push({path:"/"}) //跳转到登录页面
       this.$cookies.remove("cname") //清除cookie
@@ -140,7 +185,7 @@ li {
   background-color: #fff;
 }
 .right .msg p {
-  height: 45px;
+  height: 40px;
   line-height: 40px;
   width: 100%;
 }
@@ -148,5 +193,9 @@ li {
   border-radius: 15px;
   background-color: #0195ff;
   color: #fff;
+}
+.el-dialog label {
+  display: block;
+  height: 40px;
 }
 </style>

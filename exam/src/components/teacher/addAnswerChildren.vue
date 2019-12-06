@@ -4,220 +4,58 @@
     <el-tabs v-model="activeName">
     <el-tab-pane name="first">
       <span slot="label"><i class="el-icon-circle-plus"></i>添加试题</span>
-      <section class="append">
-        <ul>
-          <li>
-            <span>题目类型:</span>
-            <el-select v-model="optionValue" placeholder="请选择题型" class="w150">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </li>
-          <li v-if="optionValue == '选择题'">
-            <span>所属章节：</span>
-            <el-input
-              placeholder="请输入对应章节"
-              v-model="postChange.section"
-              class="w150"
-              clearable>
-            </el-input>
-          </li>
-          <li v-if="optionValue == '填空题'">
-            <span>所属章节：</span>
-            <el-input
-              placeholder="请输入对应章节"
-              v-model="postFill.section"
-              class="w150"
-              clearable>
-            </el-input>
-          </li>
-          <li v-if="optionValue == '判断题'">
-            <span>所属章节：</span>
-            <el-input
-              placeholder="请输入对应章节"
-              v-model="postJudge.section"
-              class="w150"
-              clearable>
-            </el-input>
-          </li>
-          <li v-if="optionValue == '选择题'">
-            <span>难度等级:</span>
-            <el-select v-model="postChange.level" placeholder="选择难度等级" class="w150">
-              <el-option
-                v-for="item in levels"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </li>
-          <li v-if="optionValue == '填空题'">
-            <span>难度等级:</span>
-            <el-select v-model="postFill.level" placeholder="选择难度等级" class="w150">
-              <el-option
-                v-for="item in levels"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </li>
-          <li v-if="optionValue == '判断题'">
-            <span>难度等级:</span>
-            <el-select v-model="postJudge.level" placeholder="选择难度等级" class="w150">
-              <el-option
-                v-for="item in levels"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </li>
-          <li v-if="optionValue == '选择题'">
-            <span>正确选项:</span>
-            <el-select v-model="postChange.rightAnswer" placeholder="选择正确答案" class="w150">
-              <el-option
-                v-for="item in rights"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </li>
-        </ul>
-        <!-- 选择题部分 -->
-        <div class="change" v-if="optionValue == '选择题'">
-          <div class="title">
-            <el-tag>题目:</el-tag><span>在下面的输入框中输入题目,形如--DNS 服务器和DHCP服务器的作用是（）</span>
-            <el-input
-              type="textarea"
-              rows="4"
-              v-model="postChange.question"
-              placeholder="请输入题目内容"
-              resize="none"
-              class="answer">
-            </el-input>
-          </div>
-          <div class="options">
-            <ul>
-              <li>
-                <el-tag type="success">A</el-tag>
-                <el-input
-                  placeholder="请输入选项A的内容"
-                  v-model="postChange.answerA"
-                  clearable="">
-                </el-input>
-              </li>
-              <li>
-                <el-tag type="success">B</el-tag>
-                <el-input
-                  placeholder="请输入选项B的内容"
-                  v-model="postChange.answerB"
-                  clearable="">
-                </el-input>
-              </li>
-              <li>
-                <el-tag type="success">C</el-tag>
-                <el-input
-                  placeholder="请输入选项C的内容"
-                  v-model="postChange.answerC"
-                  clearable="">
-                </el-input>
-              </li>
-              <li>
-                <el-tag type="success">D</el-tag>
-                <el-input
-                  placeholder="请输入选项D的内容"
-                  v-model="postChange.answerD"
-                  clearable="">
-                </el-input>
-              </li>
-            </ul>
-          </div>
-          <div class="title">
-            <el-tag>解析:</el-tag><span>在下面的输入框中输入题目解析</span>
-            <el-input
-              type="textarea"
-              rows="4"
-              v-model="postChange.analysis"
-              placeholder="请输入答案解析"
-              resize="none"
-              class="answer">
-            </el-input>
-          </div>
-          <div class="submit">
-            <el-button type="primary" @click="changeSubmit()">立即添加</el-button>
-          </div>
-        </div>
-        <!-- 填空题部分 -->
-        <div class="change fill" v-if="optionValue == '填空题'">
-          <div class="title">
-            <el-tag>题目:</el-tag><span>输入题目,形如--从计算机网络系统组成的角度看，计算机网络可以分为()和()。注意需要考生答题部分一定要用括号（英文半角）括起来。</span>
-            <el-input
-              type="textarea"
-              rows="4"
-              v-model="postFill.question"
-              placeholder="请输入题目内容"
-              resize="none"
-              class="answer">
-            </el-input>
-          </div>
-          <div class="fillAnswer">
-            <el-tag>正确答案:</el-tag>
-            <el-input v-model="postFill.answer"></el-input>
-          </div>
-          <div class="title analysis">
-            <el-tag type="success">解析:</el-tag><span>下方输入框中输入答案解析</span>
-            <el-input
-              type="textarea"
-              rows="4"
-              v-model="postFill.analysis"
-              placeholder="请输入答案解析"
-              resize="none"
-              class="answer">
-            </el-input>
-          </div>
-          <div class="submit">
-            <el-button type="primary" @click="fillSubmit()">立即添加</el-button>
-          </div>
-        </div>
-        <!-- 判断题 -->
-        <div class="change judge" v-if="optionValue == '判断题'">
-          <div class="title">
-            <el-tag>题目:</el-tag><span>在下面的输入框中输入题目</span>
-            <el-input
-              type="textarea"
-              rows="4"
-              v-model="postJudge.question"
-              placeholder="请输入题目内容"
-              resize="none"
-              class="answer">
-            </el-input>
-          </div>
-          <div class="judgeAnswer">
-            <el-radio v-model="postJudge.answer" label="T">正确</el-radio>
-            <el-radio v-model="postJudge.answer" label="F">错误</el-radio>
-          </div>
-          <div class="title">
-            <el-tag>解析:</el-tag><span>在下面的输入框中输入题目解析</span>
-            <el-input
-              type="textarea"
-              rows="4"
-              v-model="postJudge.analysis"
-              placeholder="请输入答案解析"
-              resize="none"
-              class="answer">
-            </el-input>
-          </div>
-          <div class="submit">
-            <el-button type="primary" @click="judgeSubmit()">立即添加</el-button>
-          </div>
-        </div>
-      </section>
+      <div class="exam">
+        <el-form>
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="所属课程:">
+                <el-select size="medium" clearable v-model="subject" placeholder="选择课程">
+                  <el-option v-for="(item, index) in subjectList" :key="index" :label="item" :value="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="题目类型:">
+                <el-select size="medium" clearable v-model="questionType" placeholder="选择题型">
+                  <el-option v-for="(item, index) in typeList" :key="index" :label="item" :value="item"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="已有题目总数:">
+                <label>{{count}}</label>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+
+        <el-table :data="pagination.records" highlight-current-row :row-class-name="tableRowClassName">
+          <el-table-column type="index" width="50"></el-table-column>
+          <el-table-column prop="question" label="题目信息" width="500"></el-table-column>
+          <el-table-column prop="subject" label="所属课程" width="180"></el-table-column>
+          <el-table-column prop="type" label="题目类型" width="180"></el-table-column>
+          <el-table-column prop="score" label="试题分数" width="150"></el-table-column>
+          <el-table-column prop="level" label="难度等级" width="133"></el-table-column>
+          <el-table-column prop="collect" label="收藏数量" width="100"></el-table-column>
+          <el-table-column prop="collect" label="正确率" width="100"></el-table-column>
+          <el-table-column fixed="right" label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button v-if="scope.row.isInclude" type="danger" size="small" @click="removeQuestion(scope.row.questionId, scope.row.type)">移除</el-button>
+              <el-button v-else type="success" size="small" @click="addQuestion(scope.row.questionId, scope.row.type)">添加</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pagination.current"
+          :page-sizes="[6, 10]"
+          :page-size="pagination.size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pagination.total"
+          class="page"
+        ></el-pagination>
+      </div>
     </el-tab-pane>
     <el-tab-pane name="second">
       <span slot="label"><i class="iconfont icon-daoru-tianchong"></i>一键组卷</span>
@@ -257,24 +95,20 @@
 export default {
   data() {
     return {
+      pagination: {
+          //分页后的考试信息
+          current: 1, //当前页
+          total: null, //记录条数
+          size: 6, //每页条数
+      },
+      subjectList: [],
+      typeList: ['选择题', '填空题', '判断题'],
+      questionType: '',
+      // subject: '',
       changeNumber: null, //选择题出题数量
       fillNumber: null, //填空题出题数量
       judgeNumber: null, //判断题出题数量
       activeName: 'first',  //活动选项卡
-      options: [ //题库类型
-        {
-          value: '选择题',
-          label: '选择题'
-        },
-        {
-          value: '填空题',
-          label: '填空题'
-        },
-        {
-          value: '判断题',
-          label: '判断题'
-        },
-      ],
       difficulty: [ //试题难度
         {
           value: '简单',
@@ -290,91 +124,58 @@ export default {
         }
       ],
       difficultyValue: '简单',
-      levels: [ //难度等级
-        {
-          value: '1',
-          label: '1'
-        },
-        {
-          value: '2',
-          label: '2'
-        },
-        {
-          value: '3',
-          label: '3'
-        },
-        {
-          value: '4',
-          label: '4'
-        },
-        {
-          value: '5',
-          label: '5'
-        },
-      ],
-      rights: [ //正确答案
-        {
-          value: 'A',
-          label: 'A'
-        },
-        {
-          value: 'B',
-          label: 'B'
-        },
-        {
-          value: 'C',
-          label: 'C'
-        },
-        {
-          value: 'D',
-          label: 'D'
-        },
-      ],
-      paperId: null,
-      optionValue: '选择题', //题型选中值
+
       subject: '', //试卷名称用来接收路由参数
-      postChange: { //选择题提交内容
-        subject: '', //试卷名称
-        level: '', //难度等级选中值
-        rightAnswer: '', //正确答案选中值
-        section: '', //对应章节
-        question: '', //题目
-        analysis: '', //解析
-        answerA: '',
-        answerB: '',
-        answerC: '',
-        answerD: '',
-      },
-      postFill: { //填空题提交内容
-        subject: '', //试卷名称
-        level: '', //难度等级选中值
-        answer: '', //正确答案
-        section: '', //对应章节
-        question: '', //题目
-        analysis: '', //解析
-      },
-      postJudge: { //判断题提交内容
-        subject: '', //试卷名称
-        level: '', //难度等级选中值
-        answer: '', //正确答案
-        section: '', //对应章节
-        question: '', //题目
-        analysis: '', //解析
-      },
+
       postPaper: { //考试管理表对应字段
         paperId: null,
         questionType: null, // 试卷类型 1--选择题  2--填空题   3--判断题
         questionId: null,
-      }
+      },
+      count: "50",
     };
   },
   created() {
-    this.getParams()
+    this.getParams();
+    this.getAnswerInfo();
+    this.getsubjectList();
   },
   methods: {
     // handleClick(tab, event) {
     //   console.log(tab, event);
     // },
+    getsubjectList() {
+        this.$axios('/api/question').then(res => {this.subjectList = res.data.data})
+    },
+    getAnswerInfo() {
+        //分页查询所有试卷信息
+        var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;
+        var param = {paperId: this.postPaper.paperId};
+        if(this.questionType !== '') {
+            param.questionType = this.questionType
+        }
+        if(this.subject !== '') {
+            param.subject = this.subject
+        }
+        this.$axios({
+            url: url,
+            params: param
+        }).then(res => {
+            this.pagination = res.data.data;
+            console.log(res);
+        }).catch(error => {});
+        this.getCount(this.postPaper.paperId);
+    },
+    //改变当前记录条数
+    handleSizeChange(val) {
+        this.pagination.size = val
+        this.getAnswerInfo()
+    },
+    //改变当前页码，重新发送请求
+    handleCurrentChange(val) {
+        this.pagination.current = val
+        this.getAnswerInfo()
+    },
     create() {
       this.$axios({
         url: '/api/item',
@@ -409,9 +210,66 @@ export default {
     getParams() {
       let subject = this.$route.query.subject //获取试卷名称
       let paperId = this.$route.query.paperId //获取paperId
-      this.paperId = paperId
-      this.subject = subject
       this.postPaper.paperId = paperId
+      this.subject = subject
+    },
+    addQuestion(questionId, questionType) {
+        this.postPaper.questionId = questionId;
+        if(questionType === '选择题') {
+            this.postPaper.questionType = 1;
+        } else if (questionType === '填空题') {
+            this.postPaper.questionType = 2;
+        } else {
+            this.postPaper.questionType = 3;
+        }
+        this.$axios({
+            url: '/api/paperManage',
+            method: 'Post',
+            data: {
+                ...this.postPaper
+            }
+        }).then(res => {
+            if(res.data.code == 200) {
+                this.$message({ //成功修改提示
+                    message: '更新成功',
+                    type: 'success'
+                })
+            }
+            this.getAnswerInfo();
+        })
+    },
+    removeQuestion(questionId, questionType) {
+        this.postPaper.questionId = questionId;
+        if(questionType === '选择题') {
+            this.postPaper.questionType = 1;
+        } else if (questionType === '填空题') {
+            this.postPaper.questionType = 2;
+        } else {
+            this.postPaper.questionType = 3;
+        }
+        this.$axios({
+            url: '/api/paperManage',
+            method: 'Delete',
+            data: {
+                ...this.postPaper
+            }
+        }).then(res => {
+            if(res.data.code == 200) {
+                this.$message({ //成功修改提示
+                    message: '更新成功',
+                    type: 'success'
+                })
+            }
+            this.getAnswerInfo();
+        })
+    },
+    getCount(paperId){
+        this.$axios({
+            url: `/api/type-count/${paperId}`,
+            method: 'Get',
+        }).then(res => {
+            this.count = res.data.data;
+        })
     },
     changeSubmit() { //选择题题库提交
       this.postChange.subject = this.subject
@@ -509,12 +367,77 @@ export default {
         })
       })
     }
-  },
+  },watch: {
+    questionType: {
+        deep: true,
+            handler: function () {
+            var url = `/api/question/all/1/${this.pagination.size}`;
+            var param = {paperId: this.postPaper.paperId};
+            if(this.questionType !== '') {
+                param.questionType = this.questionType
+            }
+            if(this.subject !== '') {
+                param.subject = this.subject
+            }
+            this.$axios({
+                url: url,
+                params: param
+            }).then(res => {
+                this.pagination = res.data.data;
+                console.log(res);
+            }).catch(error => {});
+            this.getCount(this.postPaper.paperId);
+        }
+    }, subject: {
+        deep: true,
+            handler: function () {
+            var url = `/api/question/all/1/${this.pagination.size}`;
+            var param = {paperId: this.postPaper.paperId};
+            if(this.questionType !== '') {
+                param.questionType = this.questionType
+            }
+            if(this.subject !== '') {
+                param.subject = this.subject
+            }
+            this.$axios({
+                url: url,
+                params: param
+            }).then(res => {
+                this.pagination = res.data.data;
+                console.log(res);
+            }).catch(error => {});
+            this.getCount(this.postPaper.paperId);
+        }
+    }
+}
 };
 </script>
 
 <style lang="scss" scoped>
 .add {
+  .exam {
+    padding: 0px 40px;
+    .page {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .edit {
+      margin-left: 20px;
+    }
+    .el-table tr {
+      background-color: #DD5862 !important;
+    }
+  }
+  .el-table .warning-row {
+    background: #000 !important;
+
+  }
+
+  .el-table .success-row {
+    background: #DD5862;
+  }
   margin: 0px 40px;
   .box {
     padding: 0px 20px;

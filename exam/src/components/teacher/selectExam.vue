@@ -71,7 +71,7 @@
         </el-form>
       </section>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="add(form.paperId,form.source)" type="warning" size="small">编辑考题</el-button>
+        <el-button class="bottom_edit" @click="add(form.paperId,form.source)" type="warning" size="small">编辑考题</el-button>
         <el-button @click="dialogVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="submit()" size="small">确 定</el-button>
       </span>
@@ -178,5 +178,9 @@ export default {
   .edit{
     margin-left: 20px;
   }
+}
+.bottom_edit{
+  position: absolute;
+  left: 30px;
 }
 </style>

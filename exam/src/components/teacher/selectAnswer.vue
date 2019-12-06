@@ -1,7 +1,6 @@
 //查询所有题库
 <template>
   <div class="exam">
-
     <el-form>
       <el-row>
         <el-col :span="6">
@@ -23,12 +22,13 @@
 
     <el-table :data="pagination.records" highlight-current-row :row-class-name="tableRowClassName">
       <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column prop="question" label="题目信息" width="600"></el-table-column>
+      <el-table-column prop="question" label="题目信息" width="500"></el-table-column>
       <el-table-column prop="subject" label="所属课程" width="280"></el-table-column>
       <el-table-column prop="type" label="题目类型" width="200"></el-table-column>
       <el-table-column prop="score" label="试题分数" width="150"></el-table-column>
       <el-table-column prop="level" label="难度等级" width="133"></el-table-column>
       <el-table-column prop="collect" label="收藏数量" width="100"></el-table-column>
+      <el-table-column prop="collect" label="正确率" width="100"></el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -64,9 +64,9 @@ export default {
     this.getsubjectList();
   },
   methods: {
-      getsubjectList() {
+    getsubjectList() {
           this.$axios('/api/question').then(res => {this.subjectList = res.data.data})
-      },
+    },
     getAnswerInfo() {
       //分页查询所有试卷信息
       var url = `/api/question/all/${this.pagination.current}/${this.pagination.size}`;

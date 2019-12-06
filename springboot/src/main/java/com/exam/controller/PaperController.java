@@ -53,4 +53,15 @@ public class PaperController {
         }
         return ApiResultHandler.buildApiResult(400,"添加失败",res);
     }
+
+    @DeleteMapping("/paperManage")
+    public ApiResult remove(@RequestBody PaperManage paperManage) {
+        paperService.remove(paperManage);
+        return ApiResultHandler.buildApiResult(200,"删除成功", true);
+    }
+
+    @GetMapping("/type-count/{paperId}")
+    public ApiResult count(@PathVariable Integer paperId) {
+        return ApiResultHandler.buildApiResult(200,"查询成功", paperService.countType(paperId));
+    }
 }

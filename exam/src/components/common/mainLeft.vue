@@ -20,8 +20,8 @@
         </template>
           <el-menu-item v-for="(list,index1) in item.content" :key="index1" @click="handleTitle(item.index)" :index="list.path">{{list.item}}</el-menu-item>
       </el-submenu>
+      <i class="el-icon-notebook-1"></i>
     </el-menu>
-    <i class="el-icon-notebook-1"></i>
   </div>
 </template>
 
@@ -114,8 +114,10 @@ export default {
 .el-icon-notebook-1{
   font-size: 110px;
   color: #b5daf2;
-  position: absolute;
-  bottom: 40px;
-  left: 70px;
+  /*position: absolute;*/
+  /*bottom: 40px;*/
+  /*left: 70px;*/
+  margin-left: 70px;
+  margin-top: 150px;
 }
 </style>

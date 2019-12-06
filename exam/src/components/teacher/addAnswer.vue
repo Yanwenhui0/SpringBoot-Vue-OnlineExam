@@ -298,7 +298,6 @@ export default {
                 label: 'D'
             },
         ],
-        paperId: null,
         optionValue: '选择题', //题型选中值
         postChange: { //选择题提交内容
             subject: '', //对应课程
@@ -324,25 +323,14 @@ export default {
             answer: '', //正确答案
             question: '', //题目
             analysis: '', //解析
-        },
-        postPaper: { //考试管理表对应字段
-            paperId: null,
-            questionType: null, // 试卷类型 1--选择题  2--填空题   3--判断题
-            questionId: null,
         }
     }
   },
     created() {
-        this.getParams()
+
     },
     methods: {
-        getParams() {
-            let subject = this.$route.query.subject //获取试卷名称
-            let paperId = this.$route.query.paperId //获取paperId
-            this.paperId = paperId
-            this.subject = subject
-            this.postPaper.paperId = paperId
-        },
+        // TODO 添加试题时，不用再添加到试卷里
         changeSubmit() { //选择题题库提交
             this.$axios({ //提交数据到选择题题库表
                 url: '/api/MultiQuestion',
@@ -351,19 +339,19 @@ export default {
                     ...this.postChange
                 }
             }).then(res => { //添加成功显示提示
-                let status = res.data.code
+                let status = res.data.code;
                 if(status == 200) {
                     this.$message({
                         message: '已添加到题库',
                         type: 'success'
-                    })
+                    });
                     this.postChange = {}
                 }
             }).then(() => {
                 this.$axios(`/api/multiQuestionId`).then(res => { //获取当前题目的questionId
-                    let questionId = res.data.data.questionId
-                    this.postPaper.questionId = questionId
-                    this.postPaper.questionType = 1
+                    let questionId = res.data.data.questionId;
+                    this.postPaper.questionId = questionId;
+                    this.postPaper.questionType = 1;
                     this.$axios({
                         url: '/api/paperManage',
                         method: 'Post',
@@ -382,7 +370,7 @@ export default {
                     ...this.postFill
                 }
             }).then(res => {
-                let status = res.data.code
+                let status = res.data.code;
                 if(status == 200) {
                     this.$message({
                         message: '已添加到题库',
@@ -392,9 +380,9 @@ export default {
                 }
             }).then(() => {
                 this.$axios(`/api/fillQuestionId`).then(res => { //获取当前题目的questionId
-                    let questionId = res.data.data.questionId
-                    this.postPaper.questionId = questionId
-                    this.postPaper.questionType = 2
+                    let questionId = res.data.data.questionId;
+                    this.postPaper.questionId = questionId;
+                    this.postPaper.questionType = 2;
                     this.$axios({
                         url: '/api/paperManage',
                         method: 'Post',
@@ -413,7 +401,7 @@ export default {
                     ...this.postJudge
                 }
             }).then(res => {
-                let status = res.data.code
+                let status = res.data.code;
                 if(status == 200) {
                     this.$message({
                         message: '已添加到题库',
@@ -423,9 +411,9 @@ export default {
                 }
             }).then(() => {
                 this.$axios(`/api/judgeQuestionId`).then(res => { //获取当前题目的questionId
-                    let questionId = res.data.data.questionId
-                    this.postPaper.questionId = questionId
-                    this.postPaper.questionType = 3
+                    let questionId = res.data.data.questionId;
+                    this.postPaper.questionId = questionId;
+                    this.postPaper.questionType = 3;
                     this.$axios({
                         url: '/api/paperManage',
                         method: 'Post',

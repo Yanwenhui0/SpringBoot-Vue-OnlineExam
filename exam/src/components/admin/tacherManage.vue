@@ -26,7 +26,7 @@
       </el-row>
     </el-form>
 
-    <el-table :data="pagination.records" highlight-current-row border>
+    <el-table :data="pagination.records" highlight-current-row>
 <!--      border-->
       <el-table-column fixed="left" prop="teacherId" label="职工号" width="150"></el-table-column>
       <el-table-column prop="teacherName" label="姓名" width="120"></el-table-column>

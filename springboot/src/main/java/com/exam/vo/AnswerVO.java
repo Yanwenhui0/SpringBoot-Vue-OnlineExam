@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class AnswerVO {
+    private String questionId;
     private String question;
     private String subject;
     private String score;

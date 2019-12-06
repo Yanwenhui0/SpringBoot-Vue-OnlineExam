@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.Dto.TeacherSearchDto;
@@ -46,6 +47,20 @@ public class TeacherController {
     @PutMapping("/teacher")
     public ApiResult update(@RequestBody Teacher teacher){
         return ApiResultHandler.success(teacherService.update(teacher));
+    }
+
+    @PutMapping("/teacher/password")
+    public ApiResult updatePassword(@RequestBody JSONObject jsonObject){
+        String teacherId = jsonObject.get("teacherId").toString();
+        String oldPassword = jsonObject.get("oldPassword").toString();
+        String password = jsonObject.get("password").toString();
+
+        Integer integer = teacherService.updatePassword(teacherId, oldPassword, password);
+        if(null != integer) {
+            return ApiResultHandler.success(integer);
+        } else {
+            return ApiResultHandler.buildApiResult(400, "原密码错误", null);
+        }
     }
 
     @PostMapping("/teacher")

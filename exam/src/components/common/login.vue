@@ -79,18 +79,31 @@ export default {
             case "0":  //管理员
               this.$cookies.set("cname", resData.adminName)
               this.$cookies.set("cid", resData.adminId)
+              this.$cookies.set("tel", resData.tel)
+              this.$cookies.set("email", resData.email)
               this.$cookies.set("role", 0)
               this.$router.push({path: '/index' }) //跳转到首页
               break
             case "1": //教师
               this.$cookies.set("cname", resData.teacherName)
               this.$cookies.set("cid", resData.teacherId)
+              this.$cookies.set("tel", resData.tel)
+              this.$cookies.set("email", resData.email)
+              this.$cookies.set("institute", resData.institute)
               this.$cookies.set("role", 1)
               this.$router.push({path: '/index' }) //跳转到教师用户
               break
             case "2": //学生
               this.$cookies.set("cname", resData.studentName)
               this.$cookies.set("cid", resData.studentId)
+              this.$cookies.set("tel", resData.tel)
+              this.$cookies.set("email", resData.email)
+              this.$cookies.set("institute", resData.institute)
+              this.$cookies.set("grade", resData.grade)
+              this.$cookies.set("major", resData.major)
+              this.$cookies.set("clazz", resData.clazz)
+              this.$cookies.set("sex", resData.sex)
+              this.$cookies.set("role", 2)
               this.$router.push({path: '/student'})
               break
           }

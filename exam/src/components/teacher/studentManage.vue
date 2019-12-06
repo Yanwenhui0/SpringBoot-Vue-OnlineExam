@@ -34,7 +34,7 @@
     </el-form>
 
 
-    <el-table :data="pagination.records" highlight-current-row border>
+    <el-table :data="pagination.records" highlight-current-row>
       <el-table-column fixed="left" prop="studentId" label="学号" width="180"></el-table-column>
       <el-table-column prop="studentName" label="姓名" width="160"></el-table-column>
       <el-table-column prop="institute" label="学院" width="220"></el-table-column>
