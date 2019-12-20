@@ -30,8 +30,6 @@ public class ItemController {
     @Autowired
     PaperService paperService;
 
-
-
     @PostMapping("/item")
     public ApiResult ItemController(@RequestBody Item item) {
         // 选择题

@@ -1,10 +1,13 @@
 package com.exam.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 // 选择题实体
 @Data
 public class MultiQuestion {
+    @TableId
     private Integer questionId;
 
     private String subject;
@@ -28,4 +31,11 @@ public class MultiQuestion {
     private Integer score;
 
     private Integer collect;
+
+    private Integer ok;
+
+    private Integer total;
+
+    @TableField(exist = false)
+    private String scale;
 }

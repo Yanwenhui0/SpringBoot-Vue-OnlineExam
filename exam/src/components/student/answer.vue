@@ -46,8 +46,8 @@
                   <li v-for="(list, index1) in topic[1]" :key="index1">
                     <a href="javascript:;"
                       @click="change(index1)"
-                      :class="{'border': index == index1 && currentType == 1,'bg': bg_flag && topic[1][index1].isClick == true}">
-                      <span :class="{'mark': topic[1][index1].isMark == true}"></span>
+                      :class="{'border': index === index1 && currentType === 1,'bg': bg_flag && topic[1][index1].isClick === true}">
+                      <span :class="{'mark': topic[1][index1].isMark === true}"></span>
                       {{index1+1}}
                     </a>
                   </li>
@@ -69,7 +69,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="final" @click="commit()">结束考试</div>
+              <div class="final" @click="practice()">退出练习</div>
             </div>
           </div>
         </transition>
@@ -90,9 +90,10 @@
                 <el-radio :label="3">{{showAnswer.answerC}}</el-radio>
                 <el-radio :label="4">{{showAnswer.answerD}}</el-radio>
               </el-radio-group>
-              <div class="analysis" v-if="isPractice">
+              <el-tag type="success" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
+              <div class="analysis" v-if="isPractice && isOpen">
                 <ul>
-                  <li> <el-tag type="success">正确姿势：</el-tag><span class="right">{{reduceAnswer.rightAnswer}}</span></li>
+                  <li> <el-tag type="danger">正确答案：</el-tag><span class="right">{{reduceAnswer.rightAnswer}}</span></li>
                   <li><el-tag>题目解析：</el-tag></li>
                   <li>{{reduceAnswer.analysis == null ? '暂无解析': reduceAnswer.analysis}}</li>
                 </ul>
@@ -106,9 +107,10 @@
                   @blur="fillBG">
                 </el-input>
               </div>
-              <div class="analysis" v-if="isPractice">
+              <el-tag type="success" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
+              <div class="analysis" v-if="isPractice && isOpen">
                 <ul>
-                  <li> <el-tag type="success">正确姿势：</el-tag><span class="right">{{topic[2][index].answer}}</span></li>
+                  <li> <el-tag type="success">正确答案：</el-tag><span class="right">{{topic[2][index].answer}}</span></li>
                   <li><el-tag>题目解析：</el-tag></li>
                   <li>{{topic[2][index].analysis == null ? '暂无解析': topic[2][index].analysis}}</li>
                 </ul>
@@ -119,9 +121,10 @@
                 <el-radio :label="1">正确</el-radio>
                 <el-radio :label="2">错误</el-radio>
               </el-radio-group>
-              <div class="analysis" v-if="isPractice">
+              <el-tag type="success" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
+              <div class="analysis" v-if="isPractice && isOpen">
                 <ul>
-                  <li> <el-tag type="success">正确姿势：</el-tag><span class="right">{{topic[3][index].answer}}</span></li>
+                  <li> <el-tag type="success">正确答案：</el-tag><span class="right">{{topic[3][index].answer}}</span></li>
                   <li><el-tag>题目解析：</el-tag></li>
                   <li>{{topic[3][index].analysis == null ? '暂无解析': topic[3][index].analysis}}</li>
                 </ul>
@@ -181,7 +184,8 @@ export default {
       fillAnswer: [[]], //二维数组保存所有填空题答案
       judgeAnswer: [], //保存所有判断题答案
       topic1Answer: [],  //学生选择题作答编号,
-      rightAnswer: ''
+      rightAnswer: '',
+      isOpen: false
     }
   },
   created() {
@@ -218,40 +222,112 @@ export default {
       let date = new Date()
       this.startTime = this.getTime(date)
       let examCode = this.$route.query.examCode //获取路由传递过来的试卷编号
-      this.$axios(`/api/exam/${examCode}`).then(res => {  //通过examCode请求试卷详细信息
-        this.examData = { ...res.data.data} //获取考试详情
-        this.index = 0
-        this.time = this.examData.totalScore //获取分钟数
-        let paperId = this.examData.paperId
-        this.$axios(`/api/paper/${paperId}`).then(res => {  //通过paperId获取试题题目信息
-          this.topic = {...res.data}
-          let reduceAnswer = this.topic[1][this.index]
-          this.reduceAnswer = reduceAnswer
-          let keys = Object.keys(this.topic) //对象转数组
-          keys.forEach(e => {
-            let data = this.topic[e]
-            this.topicCount.push(data.length)
-            let currentScore = 0
-            for(let i = 0; i< data.length; i++) { //循环每种题型,计算出总分
-              currentScore += data[i].score
-            }
-            this.score.push(currentScore) //把每种题型总分存入score
+
+      const isPractice = this.$store.state.isPractice
+      if(isPractice === true){
+          this.$axios(`/api/exercise/${examCode}`).then(res => {
+              this.examData.type = '练习'
+              this.examData.source = res.data.data.name
+              this.examData.totalScore = res.data.data.total
+              this.examData.paperId = examCode
+              this.index = 0
+              this.time = 999 //获取分钟数
+              const multiIds = res.data.data.multi;
+              const fillIds = res.data.data.fill
+              const judgeIds = res.data.data.judge
+
+              // const examd = {}
+              // this.$axios(`/api/multiQuestion/${multiIds}`).then(res => {
+              //     this.topic['multi'] = res.data.data
+              //     examd['multi'] = res.data.data
+              //     console.log("1" + this.topic.multi)
+              // })
+              // this.$axios(`/api/fillQuestion/${fillIds}`).then(res => {
+              //     this.topic['fill'] = res.data.data
+              //     examd['multi'] = res.data.data
+              // })
+              // this.$axios(`/api/judgeQuestion/${judgeIds}`).then(res => {
+              //     this.topic['judge'] = res.data.data
+              //     examd['multi'] = res.data.data
+              // })
+              // this.topic = examd
+              // console.log("2" + this.topic)
+              // console.log("3" + this.topic.multi)
+
+              Promise.all([this.$axios(`/api/multiQuestion/${multiIds}`),
+                  this.$axios(`/api/fillQuestion/${fillIds}`),
+                  this.$axios(`/api/judgeQuestion/${judgeIds}`)])
+                  .then(res => {
+                    console.log(res)
+                    this.topic[1] = res[0].data.data
+                    this.topic[2] = res[1].data.data
+                    this.topic[3] = res[2].data.data
+                    let reduceAnswer = this.topic[1][this.index]
+                    this.reduceAnswer = reduceAnswer
+                    let keys = Object.keys(this.topic) //对象转数组
+                    keys.forEach(e => {
+                        let data = this.topic[e]
+                        this.topicCount.push(data.length)
+                        let currentScore = 0
+                        for(let i = 0; i< data.length; i++) { //循环每种题型,计算出总分
+                            currentScore += data[i].score
+                        }
+                        this.score.push(currentScore) //把每种题型总分存入score
+                    })
+                    let len = this.topicCount[1]
+                    let father = []
+                    for(let i = 0; i < len; i++) { //根据填空题数量创建二维空数组存放每道题答案
+                        let children = [null,null,null,null]
+                        father.push(children)
+                    }
+                    this.fillAnswer = father
+                    let dataInit = this.topic[1]
+                    this.number = 1
+                    this.showQuestion = dataInit[0].question
+                    this.showAnswer = dataInit[0]
+              })
+
+
           })
-          let len = this.topicCount[1]
-          let father = []
-          for(let i = 0; i < len; i++) { //根据填空题数量创建二维空数组存放每道题答案
-            let children = [null,null,null,null]
-            father.push(children)
-          }
-          this.fillAnswer = father
-          let dataInit = this.topic[1]
-          this.number = 1
-          this.showQuestion = dataInit[0].question
-          this.showAnswer = dataInit[0]
-        })
-      })
+      } else {
+          this.$axios(`/api/exam/${examCode}`).then(res => {  //通过examCode请求试卷详细信息
+              this.examData = {...res.data.data} //获取考试详情
+              this.index = 0
+              this.time = this.examData.totalScore //获取分钟数
+              let paperId = this.examData.paperId
+              this.$axios(`/api/paper/${paperId}`).then(res => {  //通过paperId获取试题题目信息
+                  this.topic = {...res.data}
+                  let reduceAnswer = this.topic[1][this.index]
+                  this.reduceAnswer = reduceAnswer
+                  let keys = Object.keys(this.topic) //对象转数组
+                  keys.forEach(e => {
+                      let data = this.topic[e]
+                      this.topicCount.push(data.length)
+                      let currentScore = 0
+                      for(let i = 0; i< data.length; i++) { //循环每种题型,计算出总分
+                          currentScore += data[i].score
+                          data[i].isMark = false //标记
+                      }
+                      this.score.push(currentScore) //把每种题型总分存入score
+                  })
+                  let len = this.topicCount[1]
+                  let father = []
+                  for(let i = 0; i < len; i++) { //根据填空题数量创建二维空数组存放每道题答案
+                      let children = [null,null,null,null]
+                      father.push(children)
+                  }
+                  this.fillAnswer = father
+                  let dataInit = this.topic[1]
+                  this.number = 1
+                  this.showQuestion = dataInit[0].question
+                  this.showAnswer = dataInit[0]
+              })
+          })
+      }
+
     },
     change(index) { //选择题
+      this.isOpen = false
       this.index = index
       let reduceAnswer = this.topic[1][this.index]
       this.reduceAnswer = reduceAnswer
@@ -345,6 +421,7 @@ export default {
       }
     },
     previous() { //上一题
+      this.isOpen = false
       this.index --
       switch(this.currentType) {
         case 1:
@@ -359,6 +436,7 @@ export default {
       }
     },
     next() { //下一题
+      this.isOpen = false
       this.index ++
       switch(this.currentType) {
         case 1:
@@ -375,13 +453,13 @@ export default {
     mark() { //标记功能
       switch(this.currentType) {
         case 1:
-          this.topic[1][this.index]["isMark"] = true //选择题标记
+          this.topic[1][this.index]["isMark"] = !this.topic[1][this.index].isMark //选择题标记
           break
         case 2:
-          this.topic[2][this.index]["isMark"] = true //填空题标记
+          this.topic[2][this.index]["isMark"] = !this.topic[2][this.index].isMark //填空题标记
           break
         case 3:
-          this.topic[3][this.index]["isMark"] = true //判断题标记
+          this.topic[3][this.index]["isMark"] = !this.topic[3][this.index].isMark //判断题标记
       }
     },
     commit() { //答案提交计算分数
@@ -488,7 +566,12 @@ export default {
           }
         }
       },1000 * 60)
-    }
+    },
+    practice() { //跳转练习模式
+        let isPractice = true
+        this.$store.commit("practice", isPractice)
+        this.$router.push({path:'/startExam'})
+    },
   },
   computed:mapState(["isPractice"])
 }
@@ -506,7 +589,7 @@ export default {
     font-size: 18px;
     border: 1px solid #2776df;
     padding: 0px 6px;
-    border-radius: 4px;
+    border-radius: 5px;
     margin-left: 20px;
   }
   ul li:nth-child(2) {

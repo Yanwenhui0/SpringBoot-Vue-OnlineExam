@@ -8,6 +8,7 @@ import com.exam.service.FillQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -39,5 +40,10 @@ public class FillQuestionServiceImpl implements FillQuestionService {
     @Override
     public List<Integer> findBySubject(String subject, Integer pageNo) {
         return fillQuestionMapper.findBySubject(subject,pageNo);
+    }
+
+    @Override
+    public List<FillQuestion> findByIds(String ids) {
+        return fillQuestionMapper.selectBatchIds(Arrays.asList(ids.split(",")));
     }
 }

@@ -5,8 +5,8 @@
       <el-col :span="24">
         <ul class="list">
           <li class="logo"><i class="iconfont icon-kaoshi"></i><span>Exam-Online</span></li>
-          <li><a href="javascript:;" @click="exam()">我的试卷</a></li>
-          <li><a href="javascript:;" @click="practice()">我的练习</a></li>
+          <li @click="exam()"><a href="javascript:;">我的试卷</a></li>
+          <li @click="practice()"><a href="javascript:;">我的练习</a></li>
           <li><router-link to="/scoreTable">我的分数</router-link></li>
           <li><a href="javascript:;">写下笔记</a></li>
           <li><a href="javascript:;">收藏经典</a></li>

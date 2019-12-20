@@ -17,4 +17,6 @@ public interface FillQuestionService {
     int add(FillQuestion fillQuestion);
 
     List<Integer> findBySubject(String subject,Integer pageNo);
+
+    List<FillQuestion> findByIds(String ids);
 }

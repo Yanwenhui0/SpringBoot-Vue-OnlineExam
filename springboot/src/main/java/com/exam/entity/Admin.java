@@ -1,6 +1,10 @@
 package com.exam.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+
 public class Admin {
+
+    @TableId
     private Integer adminId;
 
     private String adminName;

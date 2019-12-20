@@ -8,6 +8,7 @@ import com.exam.service.JudgeQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -39,5 +40,10 @@ public class JudgeQuestionServiceImpl implements JudgeQuestionService {
     @Override
     public List<Integer> findBySubject(String subject, Integer pageNo) {
         return judgeQuestionMapper.findBySubject(subject,pageNo);
+    }
+
+    @Override
+    public List<JudgeQuestion> findByIds(String ids) {
+        return judgeQuestionMapper.selectBatchIds(Arrays.asList(ids.split(",")));
     }
 }

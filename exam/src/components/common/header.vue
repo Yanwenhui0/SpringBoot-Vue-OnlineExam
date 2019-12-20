@@ -50,14 +50,14 @@
       :before-close="handleClose"
       :visible.sync="dialogVisiblePassword"
       width="30%">
-      <el-form :model="form">
-        <el-form-item label="原密码" :label-width="formLabelWidth">
+      <el-form :model="form" ref="resetP">
+        <el-form-item label="原密码" :label-width="formLabelWidth" prop="oldPassword" required>
           <el-input placeholder="请输入原始密码" v-model="form.oldPassword" autofocus="true" show-password></el-input>
         </el-form-item>
-        <el-form-item label="新密码" :label-width="formLabelWidth">
+        <el-form-item label="新密码" :label-width="formLabelWidth" prop="password" required>
           <el-input placeholder="请输入新密码" v-model="form.password" show-password></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" :label-width="formLabelWidth">
+        <el-form-item label="确认密码" :label-width="formLabelWidth" prop="password2" required>
           <el-input placeholder="再次输入新密码" v-model="form.password2" show-password></el-input>
         </el-form-item>
       </el-form>
@@ -84,6 +84,8 @@ export default {
         userId: null
       },
         form: {
+          adminId:'',
+            teacherId:'',
             oldPassword: '',
             password: '',
             password2: '',
@@ -96,14 +98,56 @@ export default {
   },
   computed: mapState(["flag","menu"]),
   methods: {
+    validPassword(){
+        if(this.form.oldPassword === '' || this.form.password === '' || this.form.password2 === ''){
+            this.$message({
+                message: '密码不能为空',
+                type: 'warning'
+            })
+            return false;
+        }
+        if(this.form.password !== this.form.password2){
+            this.$message({
+                message: '两次密码输入不一致',
+                type: 'warning'
+            })
+            return false;
+        }
+        return true;
+    },
     updatePassword(){
+        if(!this.validPassword()){
+            return;
+        }
+        var url = '';
+        if(this.$cookies.get("role") == 0) {
+            url = '/api/admin/password'
+            this.form.adminId = this.$cookies.get("cid")
+        } else {
+            url = '/api/teacher/password'
+            this.form.teacherId = this.$cookies.get("cid")
+        }
         this.$axios({
-            url: `/api/login`,
-            method: 'post',
+            url: url,
+            method: 'put',
             data: {
-                ...this.formLabelAlign
+                ...this.form
             }
-        }).then(res=>{})
+        }).then(res=>{
+            if(res.data.code == 200) {
+            this.$message({ //成功修改提示
+                message: '修改密码成功',
+                type: 'success'
+            })
+            this.exit()
+        } else {
+          this.$refs.resetP.resetFields()
+          this.$message({
+              message: res.data.message,
+              type: 'error'
+          })
+        }
+        })
     },
     handleClose(done) {
         this.$confirm('确认关闭？')

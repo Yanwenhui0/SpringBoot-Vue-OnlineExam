@@ -5,10 +5,9 @@ import com.exam.entity.JudgeQuestion;
 import com.exam.serviceimpl.JudgeQuestionServiceImpl;
 import com.exam.util.ApiResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class JudgeQuestionController {
@@ -29,5 +28,11 @@ public class JudgeQuestionController {
     public ApiResult findOnlyQuestionId() {
         JudgeQuestion res = judgeQuestionService.findOnlyQuestionId();
         return  ApiResultHandler.buildApiResult(200,"查询成功",res);
+    }
+
+    @GetMapping("/judgeQuestion/{ids}")
+    public ApiResult findByIds(@PathVariable String ids) {
+        List<JudgeQuestion> JudgeQuestions = judgeQuestionService.findByIds(ids);
+        return  ApiResultHandler.buildApiResult(200,"查询成功",JudgeQuestions);
     }
 }
