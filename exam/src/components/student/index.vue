@@ -7,10 +7,10 @@
           <li class="logo"><i class="iconfont icon-kaoshi"></i><span>Exam-Online</span></li>
           <li @click="exam()"><a href="javascript:;">我的试卷</a></li>
           <li @click="practice()"><a href="javascript:;">我的练习</a></li>
-          <li><router-link to="/scoreTable">我的分数</router-link></li>
+          <li @click="toScoreTable()"><a href="javascript:;">我的分数</a></li>
           <li><a href="javascript:;">写下笔记</a></li>
           <li><a href="javascript:;">收藏经典</a></li>
-          <li><router-link to="/message">留言板</router-link></li>
+          <li @click="toMessage()"><a href="javascript:;">留言板</a></li>
           <li class="right" @mouseenter="flag = !flag" @mouseleave="flag = !flag">
             <a href="javascript:;"><i class="iconfont icon-Userselect icon"></i>{{user.userName}}</a>
             <div class="msg" v-if="flag">
@@ -118,6 +118,12 @@ export default {
      let isPractice = false
       this.$store.commit("practice", isPractice)
       this.$router.push({path:'/student'})
+    },
+    toScoreTable() {
+        this.$router.push({path:'/scoreTable'})
+    },
+    toMessage() {
+        this.$router.push({path:'/message'})
     }
   },
   computed:mapState(["isPractice"])
