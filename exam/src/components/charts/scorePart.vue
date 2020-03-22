@@ -1,8 +1,7 @@
 <template>
   <div class="part" >
-    <div class="box" ref="box"></div>
-    <div v-if="isNull">
-      <span>该门考试还没人参考哦,请提醒学生参加考试。</span>
+    <div class="box" ref="box">
+      <el-image v-if="isNull" style="width: 1000px; height: 1000px" :src="url"></el-image>
     </div>
   </div>
 </template>
@@ -11,6 +10,7 @@
 export default {
   data() {
     return {
+        url: "./static/img/下载.jpg",
       isNull: false, //是否有成绩标志位
       name: null,
       category: { //保存分数段
