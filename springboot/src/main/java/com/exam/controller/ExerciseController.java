@@ -70,7 +70,7 @@ public class ExerciseController {
         exercise.setMulti(String.join(",", multis.stream().map(String::valueOf).collect(Collectors.toList())));
         exercise.setFill(String.join(",", fills.stream().map(String::valueOf).collect(Collectors.toList())));
         exercise.setJudge(String.join(",", judges.stream().map(String::valueOf).collect(Collectors.toList())));
-        exercise.setTotal(2 * (multiNumber + fillNumber + judgeNumber));
+        exercise.setTotal(4 * (multiNumber *  + fillNumber + judgeNumber));
         exercise.setCreated(new Date());
 
         if(1 == exerciseService.save(exercise))

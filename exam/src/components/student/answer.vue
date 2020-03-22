@@ -69,7 +69,8 @@
                   </li>
                 </ul>
               </div>
-              <div class="final" @click="practice()">退出练习</div>
+              <div class="final" v-if="isPractice" @click="practice()">退出练习</div>
+              <div class="final" v-else @click="commit()">结束考试</div>
             </div>
           </div>
         </transition>
@@ -90,7 +91,7 @@
                 <el-radio :label="3">{{showAnswer.answerC}}</el-radio>
                 <el-radio :label="4">{{showAnswer.answerD}}</el-radio>
               </el-radio-group>
-              <el-tag type="success" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
+              <el-tag type="success" v-if="isPractice" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
               <div class="analysis" v-if="isPractice && isOpen">
                 <ul>
                   <li> <el-tag type="danger">正确答案：</el-tag><span class="right">{{reduceAnswer.rightAnswer}}</span></li>
@@ -107,7 +108,7 @@
                   @blur="fillBG">
                 </el-input>
               </div>
-              <el-tag type="success" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
+              <el-tag type="success" v-if="isPractice" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
               <div class="analysis" v-if="isPractice && isOpen">
                 <ul>
                   <li> <el-tag type="success">正确答案：</el-tag><span class="right">{{topic[2][index].answer}}</span></li>
@@ -121,7 +122,7 @@
                 <el-radio :label="1">正确</el-radio>
                 <el-radio :label="2">错误</el-radio>
               </el-radio-group>
-              <el-tag type="success" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
+              <el-tag type="success" v-if="isPractice" style="margin-top: 30px; cursor: pointer;" @click="isOpen = !isOpen">点击查看正确答案</el-tag>
               <div class="analysis" v-if="isPractice && isOpen">
                 <ul>
                   <li> <el-tag type="success">正确答案：</el-tag><span class="right">{{topic[3][index].answer}}</span></li>
@@ -135,6 +136,7 @@
             <ul class="end">
               <li @click="previous()"><i class="iconfont icon-previous"></i><span>上一题</span></li>
               <li @click="mark()"><i class="iconfont icon-mark-o"></i><span>标记</span></li>
+              <li @click="mark()"><i class="el-icon-star-off"></i><span>收藏</span></li>
               <li @click="next()"><span>下一题</span><i class="iconfont icon-next"></i></li>
             </ul>
           </div>
@@ -541,6 +543,7 @@ export default {
           }).then(res => {
             if(res.data.code == 200) {
               this.$router.push({path:'/studentScore',query: {
+                examData: this.examData,
                 score: finalScore,
                 startTime: this.startTime,
                 endTime: this.endTime
@@ -649,6 +652,17 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgb(39, 118, 223);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: #fff;
+}
+.operation .end li:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(226, 200, 77);
   border-radius: 50%;
   width: 50px;
   height: 50px;
