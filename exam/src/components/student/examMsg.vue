@@ -44,7 +44,7 @@
               </template>
               <div class="contenti">
                 <ul class="question" v-for="(list, index) in topic[1]" :key="index">
-                  <li>{{index+1}}. {{list.question}} {{list.score}}分</li>
+                  <!--<li>{{index+1}}. {{list.question}} {{list.score}}分</li>-->
                 </ul>
               </div>
             </el-collapse-item>
@@ -54,7 +54,7 @@
               </template>
               <div class="contenti">
                 <ul class="question" v-for="(list, index) in topic[2]" :key="index">
-                  <li>{{topicCount[0]+index+1}}.{{list.question}}  {{list.score}}分</li>
+                  <!--<li>{{topicCount[0]+index+1}}.{{list.question}}  {{list.score}}分</li>-->
                 </ul>
               </div>
             </el-collapse-item>
@@ -64,7 +64,7 @@
               </template>
               <div class="contenti">
                 <ul class="question" v-for="(list, index) in topic[3]" :key="index">
-                  <li>{{topicCount[0]+topicCount[1]+index+1}}. {{list.question}} {{list.score}}分</li>
+                  <!--<li>{{topicCount[0]+topicCount[1]+index+1}}. {{list.question}} {{list.score}}分</li>-->
                 </ul>
               </div>
             </el-collapse-item>

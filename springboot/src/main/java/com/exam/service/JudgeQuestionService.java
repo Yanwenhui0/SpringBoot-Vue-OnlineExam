@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface JudgeQuestionService {
 
+    JudgeQuestion findById(String id);
+
     List<JudgeQuestion> findByIdAndType(Integer paperId);
 
     IPage<JudgeQuestion> findAll(Page<JudgeQuestion> page);

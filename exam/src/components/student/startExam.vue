@@ -159,7 +159,7 @@
             },
             //获取当前所有考试信息
             getExerciseInfo() {
-                this.$axios(`/api/exercise/all/${this.pagination.current}/${this.pagination.size}`).then(res => {
+                this.$axios(`/api/exercise/all/${this.form.studentId}/${this.pagination.current}/${this.pagination.size}`).then(res => {
                     this.pagination = res.data.data
                     this.loading = false
                     console.log(this.pagination)

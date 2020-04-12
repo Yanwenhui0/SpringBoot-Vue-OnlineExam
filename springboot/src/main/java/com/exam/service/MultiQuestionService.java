@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface MultiQuestionService {
 
+    MultiQuestion findById(String id);
+
     List<MultiQuestion> findByIdAndType(Integer PaperId);
 
     IPage<MultiQuestion> findAll(Page<MultiQuestion> page);

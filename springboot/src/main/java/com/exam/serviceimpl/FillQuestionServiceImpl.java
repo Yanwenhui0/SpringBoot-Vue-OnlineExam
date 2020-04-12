@@ -18,6 +18,11 @@ public class FillQuestionServiceImpl implements FillQuestionService {
     private FillQuestionMapper fillQuestionMapper;
 
     @Override
+    public FillQuestion findById(String id) {
+        return fillQuestionMapper.selectById(id);
+    }
+
+    @Override
     public List<FillQuestion> findByIdAndType(Integer paperId) {
         return fillQuestionMapper.findByIdAndType(paperId);
     }

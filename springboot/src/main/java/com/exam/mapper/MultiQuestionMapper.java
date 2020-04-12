@@ -8,11 +8,13 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 //选择题
 @Mapper
+@Repository
 public interface MultiQuestionMapper extends BaseMapper<MultiQuestion> {
     /**
      * select * from multiquestions where questionId in (

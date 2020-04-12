@@ -33,9 +33,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public IPage<Exercise> getAll(int page, int limit) {
-        Page exercisePage = new Page(page, limit);
-        return exerciseMapper.selectPage(exercisePage, new QueryWrapper<>(null));
+    public IPage<Exercise> getAll(int studentId, int page, int limit) {
+        IPage<Exercise> exercisePage = new Page<>(page, limit);
+        QueryWrapper<Exercise> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("studentId", studentId);
+        return exerciseMapper.selectPage(exercisePage, queryWrapper);
     }
 
     @Override

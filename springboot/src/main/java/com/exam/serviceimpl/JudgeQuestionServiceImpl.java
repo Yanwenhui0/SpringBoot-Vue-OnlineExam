@@ -18,6 +18,11 @@ public class JudgeQuestionServiceImpl implements JudgeQuestionService {
     private JudgeQuestionMapper judgeQuestionMapper;
 
     @Override
+    public JudgeQuestion findById(String id) {
+        return judgeQuestionMapper.selectById(id);
+    }
+
+    @Override
     public List<JudgeQuestion> findByIdAndType(Integer paperId) {
         return judgeQuestionMapper.findByIdAndType(paperId);
     }

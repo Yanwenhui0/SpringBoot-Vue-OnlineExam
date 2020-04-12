@@ -16,6 +16,13 @@ public class MultiQuestionServiceImpl implements MultiQuestionService {
 
     @Autowired
     private MultiQuestionMapper multiQuestionMapper;
+
+
+    @Override
+    public MultiQuestion findById(String id) {
+        return multiQuestionMapper.selectById(id);
+    }
+
     @Override
     public List<MultiQuestion> findByIdAndType(Integer PaperId) {
         return multiQuestionMapper.findByIdAndType(PaperId);

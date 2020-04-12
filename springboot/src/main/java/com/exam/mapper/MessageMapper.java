@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface MessageMapper extends BaseMapper<MessageMapper> {
+public interface MessageMapper extends BaseMapper<Message> {
     @Select("select id,id as temp_id,title,content,time from message order by id desc")
     @Results({
             @Result(property = "replays", column = "temp_id",many = @Many(select = "com.exam.mapper.ReplayMapper.findAllById"))

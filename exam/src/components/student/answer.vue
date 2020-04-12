@@ -69,7 +69,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="final" v-if="isPractice" @click="practice()">退出练习</div>
+              <div class="final" v-if="isPractice" @click="toPractice()">退出练习</div>
               <div class="final" v-else @click="commit()">结束考试</div>
             </div>
           </div>
@@ -136,7 +136,7 @@
             <ul class="end">
               <li @click="previous()"><i class="iconfont icon-previous"></i><span>上一题</span></li>
               <li @click="mark()"><i class="iconfont icon-mark-o"></i><span>标记</span></li>
-              <li @click="mark()"><i class="el-icon-star-off"></i><span>收藏</span></li>
+              <li @click="addPackage()"><i class="el-icon-star-off"></i><span>收藏</span></li>
               <li @click="next()"><span>下一题</span><i class="iconfont icon-next"></i></li>
             </ul>
           </div>
@@ -359,6 +359,7 @@ export default {
       }
     },
     fill(index) { //填空题
+      this.isOpen = false
       let len = this.topic[2].length
       this.currentType = 2
       this.index = index
@@ -383,6 +384,7 @@ export default {
       }
     },
     judge(index) { //判断题
+      this.isOpen = false
       let len = this.topic[3].length
       this.currentType = 3
       this.index = index
@@ -463,6 +465,42 @@ export default {
         case 3:
           this.topic[3][this.index]["isMark"] = !this.topic[3][this.index].isMark //判断题标记
       }
+    },
+    addPackage() {
+      let questionId;
+      let questionType;
+      switch(this.currentType) {
+        case 1:
+          questionId = this.topic[1][this.index].questionId;
+          questionType = "选择题";
+          break;
+        case 2:
+          questionId = this.topic[2][this.index].questionId;
+          questionType = "填空题";
+          break;
+        case 3:
+          questionId = this.topic[3][this.index].questionId;
+          questionType = "判断题";
+      }
+      let url = `/api/package`;
+      this.$axios.post(url, {
+        'studentId': this.userInfo.id,
+        'questionType': questionType,
+        'questionId': questionId
+      }).then( res => {
+        let code = res.data.code
+        if(code == 200) {
+          this.$message({
+            type: "success",
+            message: "收藏成功"
+          })
+        } else {
+          this.$message({
+            type: "error",
+            message: "收藏失败"
+          })
+        }
+      })
     },
     commit() { //答案提交计算分数
       /* 计算选择题总分 */
@@ -570,7 +608,7 @@ export default {
         }
       },1000 * 60)
     },
-    practice() { //跳转练习模式
+    toPractice() { //跳转练习模式
         let isPractice = true
         this.$store.commit("practice", isPractice)
         this.$router.push({path:'/startExam'})
@@ -609,8 +647,8 @@ export default {
 }
 .mark {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: 10px;
+  height: 10px;
   content: "";
   background-color: red;
   border-radius: 50%;
@@ -825,14 +863,14 @@ export default {
   border: 1px solid #eee;
 }
 .left .l-top li:nth-child(4) a::before {
-  width: 4px;
-  height: 4px;
-  content: " ";
+  width: 10px;
+  height: 10px;
+  content: "";
   position: absolute;
   background-color: red;
   border-radius: 50%;
   top: 0px;
-  left: 16px;
+  left: 15px;
 }
 .left .l-top li {
   display: flex;

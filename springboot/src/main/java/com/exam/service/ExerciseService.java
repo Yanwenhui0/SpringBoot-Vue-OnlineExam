@@ -15,7 +15,7 @@ public interface ExerciseService {
 
     int delete(int id);
 
-    IPage<Exercise> getAll(int page, int limit);
+    IPage<Exercise> getAll(int studentId, int page, int limit);
 
     Exercise getOne(int id);
 }

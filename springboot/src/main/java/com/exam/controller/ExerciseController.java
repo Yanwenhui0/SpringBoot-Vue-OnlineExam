@@ -35,9 +35,9 @@ public class ExerciseController {
     @Autowired
     ExerciseService exerciseService;
 
-    @GetMapping(value = "/all/{page}/{limit}")
-    public ApiResult getAll(@PathVariable int page, @PathVariable int limit) {
-        return ApiResultHandler.buildApiResult(200,"查询成功",exerciseService.getAll(page, limit));
+    @GetMapping(value = "/all/{studentId}/{page}/{limit}")
+    public ApiResult getAll(@PathVariable Integer studentId, @PathVariable int page, @PathVariable int limit) {
+        return ApiResultHandler.buildApiResult(200,"查询成功",exerciseService.getAll(studentId, page, limit));
     }
 
     @GetMapping(value = "/{exerciseId}")

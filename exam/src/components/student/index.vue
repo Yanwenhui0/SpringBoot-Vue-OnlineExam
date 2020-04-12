@@ -6,10 +6,10 @@
         <ul class="list">
           <li class="logo"><i class="iconfont icon-kaoshi"></i><span>Exam-Online</span></li>
           <li @click="exam()"><a href="javascript:;">我的试卷</a></li>
-          <li @click="practice()"><a href="javascript:;">我的练习</a></li>
+          <li @click="toPractice()"><a href="javascript:;">我的练习</a></li>
           <li @click="toScoreTable()"><a href="javascript:;">我的分数</a></li>
           <li><a href="javascript:;">写下笔记</a></li>
-          <li><a href="javascript:;">收藏经典</a></li>
+          <li @click="toMyPackage()"><a href="javascript:;">收藏集</a></li>
           <li @click="toMessage()"><a href="javascript:;">留言板</a></li>
           <li class="right" @mouseenter="flag = !flag" @mouseleave="flag = !flag">
             <a href="javascript:;"><i class="iconfont icon-Userselect icon"></i>{{user.userName}}</a>
@@ -53,7 +53,7 @@
 <script>
 import myFooter from "@/components/student/myFooter"
 import store from '@/vuex/store'
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 export default {
   store,
   components: {
@@ -109,8 +109,9 @@ export default {
       this.user.userName = studentName
       this.user.studentId = studentId
     },
-    practice() { //跳转练习模式
+    toPractice() { //跳转练习模式
       let isPractice = true
+      // this.setPractice({isPractice: isPractice});
       this.$store.commit("practice", isPractice)
       this.$router.push({path:'/startExam'})
     },
@@ -122,9 +123,13 @@ export default {
     toScoreTable() {
         this.$router.push({path:'/scoreTable'})
     },
+    toMyPackage() {
+      this.$router.push({path:'/myPackage'})
+    },
     toMessage() {
         this.$router.push({path:'/message'})
-    }
+    },
+    ...mapMutations({'setPractice':'practice'})
   },
   computed:mapState(["isPractice"])
 }

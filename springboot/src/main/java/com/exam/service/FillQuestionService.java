@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface FillQuestionService {
 
+    FillQuestion findById(String id);
+
     List<FillQuestion> findByIdAndType(Integer paperId);
 
     IPage<FillQuestion> findAll(Page<FillQuestion> page);
