@@ -90,7 +90,9 @@ export default new Router({
         {path: '/message', component: () => import('@/components/student/message')},
         {path: '/studentScore', component: () => import("@/components/student/answerScore")},
         {path: '/scoreTable', component: () => import("@/components/student/scoreTable")},
-        {path: '/myPackage', component: () => import("@/components/student/myPackage")}
+        {path: '/myPackage', component: () => import("@/components/student/myPackage")},
+        {path: '/writeNote', component: () => import ('@/components/student/writeNote')},
+        {path: '/markdown', component: () => import ('@/components/student/markdown')}
       ]
     },
     {path: '/answer',component: () => import('@/components/student/answer')}

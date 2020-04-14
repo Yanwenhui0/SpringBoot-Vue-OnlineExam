@@ -8,7 +8,7 @@
           <li @click="exam()"><a href="javascript:;">我的试卷</a></li>
           <li @click="toPractice()"><a href="javascript:;">我的练习</a></li>
           <li @click="toScoreTable()"><a href="javascript:;">我的分数</a></li>
-          <li><a href="javascript:;">写下笔记</a></li>
+          <li @click="toWriteNote()"><a href="javascript:;">写下笔记</a></li>
           <li @click="toMyPackage()"><a href="javascript:;">收藏集</a></li>
           <li @click="toMessage()"><a href="javascript:;">留言板</a></li>
           <li class="right" @mouseenter="flag = !flag" @mouseleave="flag = !flag">
@@ -129,6 +129,9 @@ export default {
     toMessage() {
         this.$router.push({path:'/message'})
     },
+    toWriteNote() {
+      this.$router.push({path:'/writeNote'})
+    },
     ...mapMutations({'setPractice':'practice'})
   },
   computed:mapState(["isPractice"])
@@ -166,6 +169,13 @@ li {
   transition: all 2s ease;
 }
 #student .list li:hover a {
+  color: #fff;
+}
+#student .list li:visited {
+  background-color: #0195ff;
+  transition: all 2s ease;
+}
+#student .list li:visited a {
   color: #fff;
 }
 #student .list .right {

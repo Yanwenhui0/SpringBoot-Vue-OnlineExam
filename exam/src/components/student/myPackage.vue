@@ -170,7 +170,8 @@
   }
 
   .paper .item .deleteB {
-    margin: auto !important;
+    display: inline-block;
+    vertical-align: bottom;
   }
 
   .paper * {
