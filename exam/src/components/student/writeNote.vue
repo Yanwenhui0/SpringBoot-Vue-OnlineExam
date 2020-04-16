@@ -1,13 +1,13 @@
 <template>
   <div id="main">
-    <el-card>
+    <el-card v-loading="loading">
       <div slot="header">
         <span>我的笔记</span>
-        <el-button style="float: right; padding: 3px 10px" type="success" plain @click="toMarkdown">写笔记</el-button>
+        <el-button style="float: right; padding: 3px 10px" type="success" plain @click="toMarkdown(undefined)">写笔记</el-button>
       </div>
-      <div v-for="o in 4" :key="o">
-        <el-card shadow="hover" class="item">
-        {{'列表内容 ' + o }}
+      <div v-if="pagination.records" v-for="(item, index) in pagination.records" :key="index">
+        <el-card shadow="hover" class="item" @click.native="toMarkdown(item)" >
+        {{item.title}}
         </el-card>
       </div>
 
@@ -32,6 +32,7 @@ export default {
   name: 'writeNote',
   data() {
     return {
+        loading: false,
         pagination: { //分页后的考试信息
             current: 1, //当前页
             total: null, //记录条数
@@ -39,11 +40,34 @@ export default {
         }
     }
   },
+  created() {
+      this.getMyNote();
+      this.loading = true
+  },
   methods: {
-      toMarkdown() {
-          this.$router.push({path:'/markdown',query: {
-              'markdownId': 'id'
-              }})
+      getMyNote() {
+          let studentId = this.$cookies.get("cid");
+          this.$axios(`/api/note/${studentId}/${this.pagination.current}/${this.pagination.size}`).then(res => {
+              this.pagination = res.data.data;
+              console.log(this.pagination)
+          }).catch(error => {
+              console.log(error)
+          }).finally(() => {
+              this.loading = false;
+          })
+      },
+      toMarkdown(val) {
+          if(val === undefined) {
+              val = {
+                  noteId: null,
+                  studentId: this.$cookies.get("cid"),
+                  title: '',
+                  content: ''
+              }
+          }
+          this.$router.push({path:'/markdown', query: {
+              'thisNote': val
+          }})
       },
       //改变当前记录条数
       handleSizeChange(val) {
@@ -65,6 +89,7 @@ export default {
   margin: 50px auto;
 }
 .item {
+  cursor: pointer;
   margin: 0px 15px 20px 15px;
 }
 .pagination {

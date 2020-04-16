@@ -5,6 +5,9 @@
         <el-input v-model="note.title" placeholder="标题"></el-input>
       </el-form-item>
       <el-form-item>
+        <el-button type="info" @click="toWriteNote">返回</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button type="primary" @click="onSubmit">保存</el-button>
       </el-form-item>
       <mavon-editor v-model="note.content" style="height: 100%"/>
@@ -18,8 +21,10 @@
         data() {
             return {
                 note: {
-                    title: null,
-                    content: null
+                    noteId: null,
+                    studentId: null,
+                    title: '',
+                    content: ''
                 }
             }
         },
@@ -28,8 +33,25 @@
         },
         methods: {
             getNode() {
-                let id = this.$route.params.markdownId;
-            }
+                this.note = this.$route.query.thisNote;
+            },
+            onSubmit() {
+                console.log(this.note);
+                this.$axios.post(`/api/note`, {
+                    'noteId': this.note.noteId,
+                    'studentId': this.note.studentId,
+                    'title': this.note.title,
+                    'content': this.note.content,
+                }).then( () => {
+                    this.$message.success('保存成功');
+                    this.toWriteNote();
+                }).catch( () => {
+                    this.$message.error('标题已存在，保存失败');
+                })
+            },
+            toWriteNote() {
+                this.$router.push({path:'/writeNote'});
+            },
         }
     }
 </script>
