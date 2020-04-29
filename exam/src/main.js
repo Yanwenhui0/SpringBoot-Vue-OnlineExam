@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import VueCookies from 'vue-cookies'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import moment from 'moment'
 
 // use
 Vue.use(mavonEditor)
@@ -20,6 +21,7 @@ Vue.config.productionTip = false
 Vue.prototype.bus = new Vue()
 Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
+Vue.prototype.$moment = moment
 
 new Vue({
   el: '#app',

@@ -1,8 +1,8 @@
 <template>
   <div id="main">
-    <el-form :inline="true" :model="note" class="demo-form-inline" size="mini" style="height: 100%">
+    <el-form :inline="true" :model="note" class="demo-form-inline" size="small" style="height: 100%">
       <el-form-item label="标题:">
-        <el-input v-model="note.title" placeholder="标题"></el-input>
+        <el-input v-model="note.title" placeholder="标题" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="info" @click="toWriteNote">返回</el-button>

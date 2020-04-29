@@ -7,7 +7,19 @@
       </div>
       <div v-if="pagination.records" v-for="(item, index) in pagination.records" :key="index">
         <el-card shadow="hover" class="item" @click.native="toMarkdown(item)" >
-        {{item.title}}
+          <el-row>
+            <el-col :span="11" class="el-icon-tickets" style="color: #6ed779;font-size: 20px;font-weight: 200;margin-top: 3px"><h4 class="title"> {{item.title.length > 18 ? item.title.toString().slice(0, 18) + '……' : item.title}}</h4></el-col>
+            <el-col :span="6" style="margin-top: 5px !important;">
+              <el-tag size="small">创建时间：{{$moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')}}</el-tag>
+            </el-col>
+            <el-col :span="6" style="margin-top: 5px !important;">
+              <el-tag size="small">修改时间：{{$moment(item.updateTime).format('YYYY-MM-DD HH:mm:ss')}}</el-tag>
+            </el-col>
+            <el-col :span="1">
+              <el-button type="danger" icon="el-icon-delete" circle class="deleteB" size="small"
+                         @click="deleteQuestion(item.packageId)"></el-button>
+            </el-col>
+          </el-row>
         </el-card>
       </div>
 
@@ -91,6 +103,18 @@ export default {
 .item {
   cursor: pointer;
   margin: 0px 15px 20px 15px;
+}
+.title {
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-size: 18px;
+  color: #303133;
+  margin-top: 3px;
+  padding-left: 8px;
+  display: inline-block;
+}
+.deleteB {
+  display: inline-block;
+  vertical-align: bottom;
 }
 .pagination {
   padding: 20px 0px 30px 0px;
