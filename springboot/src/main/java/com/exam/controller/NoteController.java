@@ -41,5 +41,4 @@ public class NoteController {
                              @NotNull @PathVariable Integer size) {
         return ApiResultHandler.buildApiResult(200, "get note list.", noteService.getNode(studentId, page, size));
     }
-
 }

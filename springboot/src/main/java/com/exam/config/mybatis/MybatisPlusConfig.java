@@ -3,7 +3,6 @@ package com.exam.config.mybatis;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.exam.mybatis.MyMetaObjectHandler;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -20,6 +19,10 @@ public class MybatisPlusConfig {
         return new PaginationInterceptor();
     }
 
+    /**
+     * 自定义字段处理
+     * @return
+     */
     @Bean
     public MetaObjectHandler MyMetaObjectHandler() {
         return new MyMetaObjectHandler();

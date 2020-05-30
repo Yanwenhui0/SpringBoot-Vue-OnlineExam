@@ -35,14 +35,14 @@
     </el-row>
     <el-row class="footer">
       <el-col>
-        <p class="msg2">版权所有 ©2019</p>
+        <p class="msg2">版权所有 yanwenhui ©2019</p>
       </el-col>
     </el-row>
-    <section class="remind">
-      <span>管理员账号：9527</span>
-      <span>教师账号：20081001</span>
-      <span>密码都是：123456</span>
-    </section>
+    <!--<section class="remind">-->
+      <!--<span>管理员账号：9527</span>-->
+      <!--<span>教师账号：20081001</span>-->
+      <!--<span>密码都是：123456</span>-->
+    <!--</section>-->
   </div>
 </template>
 

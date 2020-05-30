@@ -53,6 +53,10 @@ public class NoteServiceImpl implements NoteService {
         IPage<Note> iPage = new Page<>(page, size);
         QueryWrapper<Note> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("studentId", studentId);
-        return noteMapper.selectPage(iPage, queryWrapper);
+        IPage<Note> noteIpage = noteMapper.selectPage(iPage, queryWrapper);
+        List<Note> records = noteIpage.getRecords();
+        records.sort((o1, o2) -> o1.getUpdateTime().before(o2.getUpdateTime()) ? 1 : -1);
+        noteIpage.setRecords(records);
+        return noteIpage;
     }
 }

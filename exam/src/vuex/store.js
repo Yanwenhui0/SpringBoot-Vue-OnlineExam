@@ -25,9 +25,10 @@ const state = {
       icon: 'icon-performance',
       content:[
         {item:'学生成绩查询',path:'/allStudentsGrade'},
-        {item: '/grade',path: '/grade'},
-        {item: '考试成绩查询',path: '/selectExamToPart'},
-        {item: '/scorePart', path: '/scorePart'}],
+        // {item: '/grade',path: '/grade'},
+        {item: '考试成绩查询',path: '/selectExamToPart'}
+        // {item: '/scorePart', path: '/scorePart'}
+        ],
     },
     {
       index: '4',

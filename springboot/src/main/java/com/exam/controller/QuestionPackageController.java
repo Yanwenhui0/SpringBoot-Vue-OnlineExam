@@ -46,6 +46,4 @@ public class QuestionPackageController {
         IPage<QuestionPackage> packageList = questionPackageService.getPackage(student, page, size);
         return ApiResultHandler.buildApiResult(200, "save question to package.", packageList);
     }
-
-
 }
