@@ -8,7 +8,7 @@ echo '\n=> build webapp\n'
 npm run build
 
 echo '\n=> copy web app to workspace\n'
-cp . ./docker
+cp -r . ./docker
 
 cd docker
 
