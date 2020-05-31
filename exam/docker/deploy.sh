@@ -7,10 +7,11 @@ npm install
 echo '\n=> build webapp\n'
 npm run build
 
-echo '\n=> copy web app to workspace\n'
-cp -r . ./docker
+echo '\n=> dockerfile web app to workspace\n'
+cp docker/dockerfile dist/dockerfile
+cp docker/nginx.conf dist/nginx.conf
 
-cd docker
+cd dist
 
 echo '\n=> build docker image\n'
 docker rm -f station-website
