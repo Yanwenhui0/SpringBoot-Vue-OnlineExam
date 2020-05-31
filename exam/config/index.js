@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://192.168.10.18:8080',//本地地址
+        target: 'http://39.100.31.158:8080',//本地地址
         // target: 'http://localhost:8080/online-exam',//本地地址
         // target: 'http://gopikachu.top:8080',// 线上部署地址
         changeOrigin: true,
