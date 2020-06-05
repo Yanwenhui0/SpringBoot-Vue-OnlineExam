@@ -1,5 +1,6 @@
 package com.exam.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Data
 public class Exercise {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer exerciseId;
     private Integer studentId;
     private String name;

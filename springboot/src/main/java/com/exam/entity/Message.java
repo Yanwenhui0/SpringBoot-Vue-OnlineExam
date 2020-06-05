@@ -1,5 +1,7 @@
 package com.exam.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Data
 public class Message {
+
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer temp_id;//解决id为null创建的一个临时id
 
