@@ -73,6 +73,9 @@
           <el-form-item label="电话号码">
             <el-input v-model="form.tel"></el-input>
           </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="form.email"></el-input>
+          </el-form-item>
           <el-form-item label="密码">
             <el-input v-model="form.pwd"></el-input>
           </el-form-item>

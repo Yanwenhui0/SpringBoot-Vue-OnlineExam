@@ -9,6 +9,9 @@ import com.exam.util.ApiResultHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class AdminController {
 
@@ -33,6 +36,8 @@ public class AdminController {
     @DeleteMapping("/admin/{adminId}")
     public ApiResult deleteById(@PathVariable("adminId") Integer adminId){
         adminService.deleteById(adminId);
+        Map a = new HashMap<>();
+        a.put(1,1);
         return ApiResultHandler.success();
     }
 

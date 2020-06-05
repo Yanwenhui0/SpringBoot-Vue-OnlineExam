@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Teacher {
-    @TableId
+
     private Integer teacherId;
 
     private String teacherName;
